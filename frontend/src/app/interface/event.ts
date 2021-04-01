@@ -5,3 +5,16 @@ interface MyEventTarget extends EventTarget {
 export interface MyEvent extends Event { 
     target: MyEventTarget; 
 } 
+
+
+export interface UserCredential {
+    email: string;
+ password:string;
+}
+
+
+export interface UserDetails extends UserCredential {
+   userName :string;
+   confirmPassword: string;
+}
+

@@ -1,0 +1,7 @@
+.form-layout{
+    width: 360px;
+    height: auto;
+    border: 2px solid #efefef;
+    box-shadow: 2px 10px 10px #efefef;
+    padding: 2rem;
+}
