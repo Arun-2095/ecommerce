@@ -1,44 +1,49 @@
 const Environment = require('dotenv').config({path:`${__dirname}/.env.${process.env.NODE_ENV}`})
 const Express  = require('express');
-const FileSystem = require('fs');
 const App = Express();
+const Cors = require('cors');
 const { ERROR } = require('./constant/appConstant')
 const UserRoute = require('./router/userRouter');
-const connection = require('./services/dbConnection')
+require('./model/errorModel');
+require('./services/dbConnection');
 
+var mailgun = require('mailgun-js')({apiKey: process.env.MAILGUN_API, domain: process.env.MAILGUN_DOMAIN});
+ 
+// var data = {
+//   from: 'cakeoccasion <arunagiri2195@gmail.com>',
+//   to: 'arun ,arunagiri2195@gmail.com',
+//   subject: 'Hello',
+//   text: 'Testing some Mailgun awesomeness!'
+// };
+ 
+// mailgun.messages().send(data, function (error, body) {
+//   console.log(body, error,"Test");
+// });
 
 App.use(Express.json())
 
+
+App.use(Cors())
+
 App.use('/user', UserRoute)
 
-// handling error 
-App.use(function (err, req, res, next) {
-    
-    console.log(err, "ERROR")
-    if(err.error ===ERROR.AUTH ){
-        res.status(400).json({message:err.message})
-    }else{
-       res.status(500).json({message:'Something broke!'})
-    }
-  })
 
-App.listen(process.env.PORT, ()=>{
-    console.log(`Server started on ${process.env.PORT}`)
+// handling error 
+App.use(function (req, res, next) {
+  next(new ServerError(404, "page Not found", []))
 })
 
 
-if(process.env.DB_MIGRATION === 'TRUE') {
 
-  let createTableQueries = FileSystem.readFileSync('./dbScripts/migration.sql').toString();
+// handling error 
+App.use( (err, req, res, next)  =>res.status(err.status || 500 ).json({message:err.message || 'something Broken', data: err.data || []}))
 
-  connection.query(createTableQueries, (error, result)=>{
- 
-    if(error){
-       throw error; 
-    }
+App.listen(process.env.PORT, ()=> console.log(`Server started on ${process.env.PORT}`))
 
-    console.log( 'database  Tables are migrated' )
 
-  })
+process.on('SIGINT', (code ,test) => {
+    console.log(`\n ****Server shutdown on ${process.env.PORT}, DB closed ****`);
+    process.exit(1);
+  });
 
-} 
+

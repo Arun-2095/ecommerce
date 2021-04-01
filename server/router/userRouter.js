@@ -1,22 +1,14 @@
 const Express = require('express');
 const {ERROR} = require('../constant/appConstant')
 const Router = Express.Router()
+const userController = require('../controller/userController')
 const connection = require('../services/dbConnection')
 
 
-Router.get('/login', function(req, res , next){
+Router.post('/register',userController.registerUser)
 
-  
 
-    connection.query('SELECT * FROM `catagory`', (error, result)=>{
-
-    console.log(error, result, "SELECTT")
-    res.send({data: result})
-
-   })
-    
-    // next({error:ERROR.AUTH, message:"FROM ROUTE"})
-})
+Router.post('/login',userController.loginUser)
 
 
 module.exports = Router

@@ -9,7 +9,7 @@ SET FOREIGN_KEY_CHECKS=1;
 CREATE TABLE user (id int PRIMARY KEY NOT NULL AUTO_INCREMENT, 
                    name VARCHAR(30), 
                    email VARCHAR(30), 
-                   password VARCHAR(30), 
+                   password VARCHAR(70), 
                    address VARCHAR(250));
 
 SET FOREIGN_KEY_CHECKS=0;
