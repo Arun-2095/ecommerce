@@ -7,18 +7,18 @@ const UserRoute = require('./router/userRouter');
 require('./model/errorModel');
 require('./services/dbConnection');
 
-//var mailgun = require('mailgun-js')({apiKey: process.env.MAILGUN_API, domain: process.env.MAILGUN_DOMAIN});
+var mailgun = require('mailgun-js')({apiKey: process.env.MAILGUN_API, domain: process.env.MAILGUN_DOMAIN});
  
-// var data = {
-//   from: 'cakeoccasion <arunagiri2195@gmail.com>',
-//   to: 'arun ,arunagiri2195@gmail.com',
-//   subject: 'Hello',
-//   text: 'Testing some Mailgun awesomeness!'
-// };
+var data = {
+  from: 'cakeoccasion <arunagiri2195@gmail.com>',
+  to: 'arun ,arunagiri2195@gmail.com',
+  subject: 'Hello',
+  text: 'Testing some Mailgun awesomeness!'
+};
  
-// mailgun.messages().send(data, function (error, body) {
-//   console.log(body, error,"Test");
-// });
+mailgun.messages().send(data, function (error, body) {
+  console.log(body, error,"Test");
+});
 
 App.use(Express.json())
 
