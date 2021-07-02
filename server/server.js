@@ -1,5 +1,6 @@
 const Environment = require('dotenv').config({path:`${__dirname}/.env.${process.env.NODE_ENV}`})
 const Express  = require('express');
+const path = require('path')
 const App = Express();
 const Cors = require('cors');
 const { ERROR } = require('./constant/appConstant')
@@ -28,17 +29,24 @@ App.use(Cors())
 App.use('/user', UserRoute)
 
 
+App.use(Express.static(path.join(__dirname,'public')));
+
+App.get('*', function(req, res) {
+  res.sendFile(path.join(__dirname,'public/index.html'));
+})
+
 // handling error 
 App.use(function (req, res, next) {
   next(new ServerError(404, "page Not found", []))
 })
 
-
-
 // handling error 
 App.use( (err, req, res, next)  =>res.status(err.status || 500 ).json({message:err.message || 'something Broken', data: err.data || []}))
 
+
+
 App.listen(process.env.PORT, ()=> console.log(`Server started on ${process.env.PORT}`))
+
 
 
 process.on('SIGINT', (code ,test) => {
