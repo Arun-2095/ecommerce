@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
+import { Router } from '@angular/router';
 import {ErrorStateMatcher} from '@angular/material/core';
 import { UserCredential } from 'src/app/interface/event';
 import { UserService } from './../../service/user.service';
@@ -23,7 +24,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 export class LoginComponent implements OnInit  {
 
   
-  constructor(private UserService:UserService) { }
+  constructor(private UserService:UserService, private router:Router) { }
 
   ngOnInit(): void {
   }
@@ -41,9 +42,12 @@ export class LoginComponent implements OnInit  {
     let loginCredential:UserCredential  = this.loginForm.value
     console.log(this.loginForm, "test")
     this.UserService.loginApiService(loginCredential).subscribe((data) =>{
-      console.log(this.loginForm, "test")
-
-
+          
+      if(data.hasOwnProperty('token')){
+       sessionStorage.setItem("userToken",data.token);
+        this.router.navigate(['user/dashboard']);
+     }
+   
     })
     
 

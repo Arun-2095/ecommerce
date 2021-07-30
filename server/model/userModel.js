@@ -58,7 +58,7 @@ function loginAuthenticationModel(userData ={}) {
 
     return   new Promise((resolve, reject)=> {
             
-          sqlconnection.query(`SELECT name as username, password FROM user WHERE email = '${userData.email}'`, (error, result)=>{
+          sqlconnection.query(`SELECT  password FROM user WHERE email = '${userData.email}'`, (error, result)=>{
   
 
               if(error){
@@ -67,14 +67,14 @@ function loginAuthenticationModel(userData ={}) {
   
                 if(result.length) {
 
-                        let {  username  ,password:passwordHash} = result[0]
+                        let { password:passwordHash} = result[0]
 
                     bcrypt.compare(userData.password, passwordHash, function(err, result) {
                         
                         if(err || !result){
                             reject(new ServerError(400, 'Provided Wrong Credentials' ,  []))
                          }else{    
-                            resolve({ name: username })
+                            resolve({ email: userData.email })
                          } 
                     });
 
@@ -88,8 +88,27 @@ function loginAuthenticationModel(userData ={}) {
           })
           
       })
-sdfsdfsdsdf
+
   }
 
 
-module.exports = {RegistrationModel,loginAuthenticationModel}
+  function getUserDetailModel(userData ={}) {
+    
+
+    return   new Promise((resolve, reject)=> {
+            
+          sqlconnection.query(`SELECT name as userName , email, address FROM user WHERE email = '${userData.email}'`, (error, result)=>{
+  
+           if(error){
+            reject(new ServerError(401, error ,  []))
+           }else { 
+            resolve(result)
+           }            
+          })
+          
+      })
+
+  }  
+
+
+module.exports = {RegistrationModel,loginAuthenticationModel, getUserDetailModel}

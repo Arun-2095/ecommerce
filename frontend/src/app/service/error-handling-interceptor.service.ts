@@ -1,19 +1,25 @@
 import { catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
+import {Router} from "@angular/router"
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest , HttpErrorResponse }from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class ErrorHandlingInterceptorService implements HttpInterceptor{
 
-  constructor( public toastrService:ToastrService ) { }
+  constructor( public toastrService:ToastrService , private router: Router) { }
 
   private handleError(error: HttpErrorResponse):Observable<HttpEvent<any>> {
 
-    console.log(error, "error Interceptor")
+  if(error.status === 401) {
+     sessionStorage.removeItem('userToken');
+
+     this.router.navigate(['auth/login']);
+    return ;
+  }else {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
  
@@ -27,23 +33,28 @@ export class ErrorHandlingInterceptorService implements HttpInterceptor{
   }else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong.
-      console.log(
-        `Backend returned code ${error.status}, ` +
-        `body was: ${error.error}`);
-        
         this.toastrService.error(error?.error?.message);
      // return of({error: "error", status:error.status})
+     return;
     }
-    // Return an observable with a user-facing error message.
-    
-    return throwError('Something went Wrong')
-    
+
     
   }
 
+  }
+
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        
-    return next.handle(req).pipe(catchError(this.handleError.bind(this)))
+
+    let userToken  = sessionStorage.getItem('userToken');
+
+      let tokenHeader = req.clone({
+        setHeaders:{
+          Authorization:  `Bearer ${userToken}`
+        },
+        url: environment.userApiEndPoint + req.url
+      })
+
+    return next.handle(tokenHeader).pipe(catchError(this.handleError.bind(this)))
   }
 
   

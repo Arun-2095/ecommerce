@@ -1,14 +1,15 @@
 const Express = require('express');
-const {ERROR} = require('../constant/appConstant')
 const Router = Express.Router()
 const userController = require('../controller/userController')
-const connection = require('../services/dbConnection')
+const authController =  require('../controller/authController');
+
 
 
 Router.post('/register',userController.registerUser)
 
+Router.post('/login', userController.loginUser, authController.generateWebToken);
 
-Router.post('/login',userController.loginUser)
+Router.get('/getUserDetail', authController.validateWebToken, userController.getUserDetail )
 
 
 module.exports = Router

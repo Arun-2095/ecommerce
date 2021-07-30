@@ -5,7 +5,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ThemeModule } from '../theme.module';
 import { OrderComponent } from './order/order.component';
-
+import { UserService } from '../service/user.service';
 
 @NgModule({
   declarations: [LayoutComponent, DashboardComponent, OrderComponent],
@@ -13,7 +13,8 @@ import { OrderComponent } from './order/order.component';
     CommonModule,
     UserRoutingModule,
     ThemeModule
-  ]
+  ],
+  providers:[UserService]
 })
 
 

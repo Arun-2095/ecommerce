@@ -1,8 +1,8 @@
 import { UserCredential, UserDetails} from './../interface/event';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, of, throwError  } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { Observable  } from 'rxjs';
+import {Endpoints} from "src/app/helpers/endpoints"
 
 @Injectable({
   providedIn: 'root'
@@ -10,14 +10,20 @@ import { environment } from 'src/environments/environment';
 export class UserService {
 
   
-  constructor(private http: HttpClient) { }
-
+  constructor(private http: HttpClient) {}
+  
+  public userToken = sessionStorage.getItem('userToken');
 
   loginApiService(data:UserCredential): Observable<any> {
-    return this.http.post(`${environment.userApiEndPoint}/login`, data)
+    return this.http.post(Endpoints.LOGIN, data)
   }
 
   registerUser(data:UserDetails): Observable<any> {
-    return this.http.post(`${environment.userApiEndPoint}/register`, data)
+    return this.http.post(Endpoints.REGISTER, data)
+  }
+
+
+  getUserDetail():Observable<any> {
+    return this.http.get(Endpoints.GET_USER_DETAIL)
   }
 }

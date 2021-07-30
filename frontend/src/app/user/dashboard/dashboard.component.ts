@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MyEvent } from '../../interface/event';
-
+import { UserService } from './../../service/user.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -9,7 +9,7 @@ import { MyEvent } from '../../interface/event';
 export class DashboardComponent implements OnInit {
   catagories: any;
 
-  constructor() { 
+  constructor(private UserService:UserService) { 
 
     this.catagories = ['Cakes', 'Donuts' , 'Cup Cake']
   }
@@ -18,7 +18,11 @@ export class DashboardComponent implements OnInit {
   layoutBreakPoint:number;
 
   ngOnInit() {
-console.log("Dashboard")
+
+     this.UserService.getUserDetail().subscribe(data =>{
+
+      console.log(data, "DATA DETAILS")
+     })
     this.layoutBreakDown();
 }
 

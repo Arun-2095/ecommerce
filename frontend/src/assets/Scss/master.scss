@@ -1,0 +1,46 @@
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+
+/* padding & margin default classes */
+@for $i from 1 through 20 {
+    @if($i % 4 == 0){
+     .pb-#{$i} {
+      padding-bottom:#{$i*100/800}rem;
+     }
+     .pt-#{$i} {
+      padding-top:#{$i*100/800}rem;
+     }
+     .pr-#{$i} {
+      padding-right:#{$i*100/800}rem;
+     }
+     .pl-#{$i} {
+      padding-left:#{$i*100/800}rem;
+     }
+     .px-#{$i} {
+      padding:#{$i*100/800}rem 0;
+     }
+     .py-#{$i} {
+      padding:0 #{$i*100/800}rem;
+     }
+     .mb-#{$i} {
+      margin-bottom:#{$i*100/800}rem;
+     }
+     .mt-#{$i} {
+      margin-top:#{$i*100/800}rem;
+     }
+     .mr-#{$i} {
+      margin-right:#{$i*100/800}rem;
+     }
+     .ml-#{$i} {
+      margin-left:#{$i*100/800}rem;
+     }
+     .mx-#{$i} {
+      margin:#{$i*100/800}rem 0;
+     }
+     .my-#{$i} {
+      margin:0 #{$i*100/800}rem;
+     }
+   }
+  }
