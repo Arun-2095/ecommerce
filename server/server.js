@@ -5,6 +5,7 @@ const App = Express();
 const Cors = require('cors');
 const { ERROR } = require('./constant/appConstant')
 const UserRoute = require('./router/userRouter');
+const ProductRoute = require('./router/productRoute');
 require('./model/errorModel');
 require('./services/dbConnection');
 
@@ -26,8 +27,9 @@ App.use(Express.json())
 
 App.use(Cors())
 
-App.use('/user', UserRoute)
+App.use('/user', UserRoute);
 
+App.use('/product',ProductRoute);
 
 App.use(Express.static(path.join(__dirname,'public')));
 

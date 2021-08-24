@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "NODE_ENV=dev  nodemon server.js",
-    "dev_db_migrate": "DB_MIGRATION=TRUE NODE_ENV=dev  nodemon server.js"
+    "dev_db_migrate":  "mysql -u root -p shop < '/home/arunkumar/Desktop/practice/server/dbScripts/migration.sql'"
   },
   "author": "",
   "license": "ISC",

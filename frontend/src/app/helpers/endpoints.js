@@ -1,7 +1,8 @@
 
 export const Endpoints = {
-  LOGIN: '/login',
-  REGISTER:'/register',
-  GET_USER_DETAIL:'/getUserDetail'
-
+  LOGIN: '/user/login',
+  REGISTER:'/user/register',
+  GET_USER_DETAIL:'/user/getUserDetail',
+  GET_PRODUCT: '/product/',
+  GET_CATAGORY: '/product/catagory'
 }

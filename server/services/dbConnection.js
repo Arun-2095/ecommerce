@@ -11,32 +11,16 @@ var connection = mysql.createPool({
 });
  
 
-connection.getConnection(function(err,connect) {
+connection.getConnection( async function(err,connect) {
   if (err) {
     console.error('error connecting: ' + JSON.stringify(err), err.sqlMessage);
     return;
   }
+  connect.query(`SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''))`);
+
   connect.release()
   console.log('db connected successfully');
 });
-
-
-
-if(process.env.DB_MIGRATION === 'TRUE') {
-
-  let createTableQueries = FileSystem.readFileSync('./dbScripts/migration.sql').toString();
-
-  connection.query(createTableQueries, (error, result)=>{
- 
-    if(error){
-       throw error; 
-    }
-
-    console.log( 'database  Tables are migrated' )
-
-  })
-
-} 
 
 
 module.exports = connection

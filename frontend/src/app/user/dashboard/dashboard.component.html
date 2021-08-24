@@ -2,89 +2,77 @@
     <mat-grid-list [cols]="layoutBreakPoint" rowHeight="100%" gutterSize="1rem" (window:resize)="onResize($event)">
         <mat-grid-tile *ngIf='layoutBreakPoint !== 1'>
           <div class="row w-100 h-100 align-self-center justify-content-center " >
-          <mat-selection-list #catagory class="menu-list border-right">
-            <mat-list-option *ngFor="let catagory of catagories">
-              {{catagory}}
+          <mat-selection-list #catagory class="menu-list border-right" (selectionChange)="onCatagorySelection($event)" >
+            <mat-list-option *ngFor="let catagory of catagories" [value]="catagory.id">
+              {{catagory.catagory}}
             </mat-list-option>
           </mat-selection-list>
         </div>    
         </mat-grid-tile>
         <mat-grid-tile [colspan]="layoutBreakPoint !== 1 ? 4 : 1" >
           <div class="row w-100 h-100  overflow-auto">
-            <div class="col-md-4 col-sm-12"> 
+            <div *ngFor='let product of productList; let i=index' class="col-md-4 col-sm-12" key="i"> 
               <mat-card class="product-card align-self-center">
                 <mat-card-header>
                  
-                  <mat-card-title>Shiba Inu</mat-card-title>
+                  <mat-card-title>{{product.product_name}}</mat-card-title>
               
                 </mat-card-header>
                 <img mat-card-image  class="W-75" src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-                <mat-card-content>
-                  <p>
-                    The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-                    A small
+                <mat-card-content *ngIf="product.catagory === catagoryList.CAKE">
+
+                   <p class='my-3 font-weight-bold'> 
+                     
+                    <label id="cake-quantity">Pick your Quantity</label>
+                    <mat-radio-group
+                      aria-labelledby="example-radio-group-label"
+                      class="example-radio-group"
+                      (change)="onQuantityChange($event, i)"
+                     
+                     >
+                      <mat-radio-button  [checked]="quantity == product.selectedProduct" class="example-radio-button" *ngFor="let quantity of product.quantities; let i =index"  [value]="quantity">
+                        {{quantity}} Kg
+                      </mat-radio-button>
+                    </mat-radio-group>
                   </p>
+                  <p class='my-3 font-weight-bold'>
+                    <span>
+                      Price :                    
+                    </span>
+                    <span>
+                      &#8377;  {{product.selectedProductPrice}}                  
+                    </span>
+                  </p>
+
                 </mat-card-content>
+
+                <mat-card-content *ngIf="product.catagory === catagoryList.CUPCAKE">
+
+                  <div class='my-3 font-weight-bold'  *ngFor="let quantity of product.quantities; let quantityIndex =index" > 
+                    
+                   <p id="cake-quantity">Pick your Quantity</p>
+                      {{ quantity }} Pieces *  <mat-form-field class='cup-cake-box' > <input min="1"  (input)="cupCakeBoxChange($event, i)" type="number"   matInput [value]="product.selectedProductCount" />  </mat-form-field> Box
+                  </div>
+                 <p class='my-3 font-weight-bold'>
+                   <span>
+                     Price :                    
+                   </span>
+                   <span>
+                     &#8377;  {{product.selectedProductPrice}}                  
+                   </span>
+                 </p>
+
+               </mat-card-content>
+
                 <mat-card-actions>
-                  <button mat-button>LIKE</button>
-                  <button mat-button>SHARE</button>
+                  <button mat-button> Add to Cart</button>
+                
                 </mat-card-actions>
               </mat-card>
             </div>
-            <div class="col-md-4 col-sm-12"> 
-              <mat-card class="product-card">
-                <mat-card-header>
-                  <mat-card-title>Shiba Inu</mat-card-title>
-                </mat-card-header>
-                <img mat-card-image   src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-                <mat-card-content>
-                  <p>
-                    The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-                    A small
-                  </p>
-                </mat-card-content>
-                <mat-card-actions>
-                  <button mat-button>LIKE</button>
-                  <button mat-button>SHARE</button>
-                </mat-card-actions>
-              </mat-card>
-           </div>
-           <div class=" col-sm-12 col-md-4 "> 
-            <mat-card class="product-card">
-              <mat-card-header>
-                <mat-card-title>Shiba Inu</mat-card-title>
-              </mat-card-header>
-              <img mat-card-image   src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-              <mat-card-content>
-                <p>
-                  The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-                  A small
-                </p>
-              </mat-card-content>
-              <mat-card-actions>
-                <button mat-button>LIKE</button>
-                <button mat-button>SHARE</button>
-              </mat-card-actions>
-            </mat-card>
-         </div>
-         <div class="col-sm-12 col-md-4"> 
-          <mat-card class="product-card">
-            <mat-card-header>
-              <mat-card-title>Shiba Inu</mat-card-title>
-            </mat-card-header>
-            <img mat-card-image   src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-            <mat-card-content>
-              <p>
-                The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-                A small
-              </p>
-            </mat-card-content>
-            <mat-card-actions>
-              <button mat-button>LIKE</button>
-              <button mat-button>SHARE</button>
-            </mat-card-actions>
-          </mat-card>
-       </div>
+      
+     
+    
         </div>
         </mat-grid-tile>
       </mat-grid-list>

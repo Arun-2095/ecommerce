@@ -41,7 +41,6 @@ const loginUser = (req, res, next)=>{
 const getUserDetail = (req, res, next)=>{
 
     let {userData ={}}= req
-
     getUserDetailModel(userData).then((userDetail)=>{
        res.status(200).json(userDetail) 
     }).catch(err => next(err))

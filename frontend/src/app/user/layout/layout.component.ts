@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { UserService } from './../../service/user.service';
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
@@ -24,9 +24,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LayoutComponent implements OnInit {
 
-  constructor() { }
+  constructor(private UserService:UserService) { }
   links:string[] = ['Dashboard', 'Orders', 'Cart', 'Account', 'Notification']
   ngOnInit(): void {
+    this.UserService.getUserDetail().subscribe(data =>{
+      console.log(this.UserService.getUserDetails,"DATA DETAILS")
+     })
   }
 
 }

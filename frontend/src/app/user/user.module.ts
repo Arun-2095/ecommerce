@@ -6,6 +6,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ThemeModule } from '../theme.module';
 import { OrderComponent } from './order/order.component';
 import { UserService } from '../service/user.service';
+import {DashboardService} from './dashboard.service';
 
 @NgModule({
   declarations: [LayoutComponent, DashboardComponent, OrderComponent],
@@ -14,7 +15,7 @@ import { UserService } from '../service/user.service';
     UserRoutingModule,
     ThemeModule
   ],
-  providers:[UserService]
+  providers:[UserService,DashboardService]
 })
 
 
