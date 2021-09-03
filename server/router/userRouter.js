@@ -1,15 +1,13 @@
 const Express = require('express');
-const Router = Express.Router()
-const userController = require('../controller/userController')
-const authController =  require('../controller/authController');
+const Router = Express.Router();
+const userController = require('../controller/userController');
+const authController = require('../controller/authController');
+const orderController = require('../controller/orderController');
 
+Router.post('/register', userController.registerUser);
 
+Router.post('/login', userController.loginUser, orderController.getUserCartId, authController.generateWebToken);
 
-Router.post('/register',userController.registerUser)
+Router.get('/getUserDetail', authController.validateWebToken, userController.getUserDetail);
 
-Router.post('/login', userController.loginUser, authController.generateWebToken);
-
-Router.get('/getUserDetail', authController.validateWebToken, userController.getUserDetail )
-
-
-module.exports = Router
+module.exports = Router;

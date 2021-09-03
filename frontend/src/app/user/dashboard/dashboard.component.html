@@ -1,5 +1,5 @@
 
-    <mat-grid-list [cols]="layoutBreakPoint" rowHeight="100%" gutterSize="1rem" (window:resize)="onResize($event)">
+    <mat-grid-list [appLoader]="Loading" [cols]="layoutBreakPoint" rowHeight="100%" gutterSize="1rem" (window:resize)="onResize($event)">
         <mat-grid-tile *ngIf='layoutBreakPoint !== 1'>
           <div class="row w-100 h-100 align-self-center justify-content-center " >
           <mat-selection-list #catagory class="menu-list border-right" (selectionChange)="onCatagorySelection($event)" >
@@ -11,7 +11,7 @@
         </mat-grid-tile>
         <mat-grid-tile [colspan]="layoutBreakPoint !== 1 ? 4 : 1" >
           <div class="row w-100 h-100  overflow-auto">
-            <div *ngFor='let product of productList; let i=index' class="col-md-4 col-sm-12" key="i"> 
+            <div *ngFor='let product of productList; let productId=index' class="col-md-4 col-sm-12" key="i"> 
               <mat-card class="product-card align-self-center">
                 <mat-card-header>
                  
@@ -21,26 +21,33 @@
                 <img mat-card-image  class="W-75" src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
                 <mat-card-content *ngIf="product.catagory === catagoryList.CAKE">
 
-                   <p class='my-3 font-weight-bold'> 
+                   <p class='font-weight-bold'> 
                      
                     <label id="cake-quantity">Pick your Quantity</label>
                     <mat-radio-group
                       aria-labelledby="example-radio-group-label"
                       class="example-radio-group"
-                      (change)="onQuantityChange($event, i)"
+                      (change)="onQuantityChange($event, productId)"
                      
                      >
-                      <mat-radio-button  [checked]="quantity == product.selectedProduct" class="example-radio-button" *ngFor="let quantity of product.quantities; let i =index"  [value]="quantity">
+                      <mat-radio-button  [checked]="quantity == product.selectedProductQuantity" class="example-radio-button" *ngFor="let quantity of product.quantities; let i =index"  [value]="quantity">
                         {{quantity}} Kg
                       </mat-radio-button>
                     </mat-radio-group>
                   </p>
-                  <p class='my-3 font-weight-bold'>
+                 
+                    <p>
+                    <mat-form-field class='cup-cake-box' > <input min="1"  (input)="cupCakeBoxChange($event, productId)" type="number"   matInput [value]="product.selectedProductCount" />  </mat-form-field>  
+
+                    <span class='d-inline-block ml-3 font-weight-bold'>Cake </span>
+                  </p>
+                 
+                  <p class='my-2 font-weight-bold'>
                     <span>
                       Price :                    
                     </span>
                     <span>
-                      &#8377;  {{product.selectedProductPrice}}                  
+                      &#8377;  {{product.selectedProductPrice}}                 
                     </span>
                   </p>
 
@@ -51,7 +58,7 @@
                   <div class='my-3 font-weight-bold'  *ngFor="let quantity of product.quantities; let quantityIndex =index" > 
                     
                    <p id="cake-quantity">Pick your Quantity</p>
-                      {{ quantity }} Pieces *  <mat-form-field class='cup-cake-box' > <input min="1"  (input)="cupCakeBoxChange($event, i)" type="number"   matInput [value]="product.selectedProductCount" />  </mat-form-field> Box
+                      {{ quantity }} Pieces *  <mat-form-field class='cup-cake-box' > <input min="1"  (input)="cupCakeBoxChange($event, productId)" type="number"   matInput [value]="product.selectedProductCount" />  </mat-form-field> Box
                   </div>
                  <p class='my-3 font-weight-bold'>
                    <span>
@@ -65,12 +72,16 @@
                </mat-card-content>
 
                 <mat-card-actions>
-                  <button mat-button> Add to Cart</button>
+                  <button (click)="toAddCart(product)" class='full-width' mat-flat-button color="primary"> Add to Cart</button>
                 
                 </mat-card-actions>
               </mat-card>
             </div>
-      
+      <div *ngIf="productList.length === 0" >
+
+        No product Available 
+
+      </div>
      
     
         </div>

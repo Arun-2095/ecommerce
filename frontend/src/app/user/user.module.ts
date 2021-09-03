@@ -7,13 +7,16 @@ import { ThemeModule } from '../theme.module';
 import { OrderComponent } from './order/order.component';
 import { UserService } from '../service/user.service';
 import {DashboardService} from './dashboard.service';
+import { CartComponent } from './cart/cart.component';
+import { DirectiveModule } from '../directives/directive.module';
 
 @NgModule({
-  declarations: [LayoutComponent, DashboardComponent, OrderComponent],
+  declarations: [LayoutComponent, DashboardComponent, OrderComponent, CartComponent],
   imports: [
     CommonModule,
     UserRoutingModule,
-    ThemeModule
+    ThemeModule,
+    DirectiveModule
   ],
   providers:[UserService,DashboardService]
 })

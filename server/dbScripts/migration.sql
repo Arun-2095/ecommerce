@@ -115,8 +115,9 @@ SET FOREIGN_KEY_CHECKS=1;
 
 
 CREATE TABLE cart (id int NOT NULL PRIMARY KEY, 
-                    user_id INT, 
+                    user_id INT NOT NULL, 
                     ordered_time DATETIME DEFAULT CURRENT_TIMESTAMP, 
+                    total INT NOT NULL, 
                     FOREIGN KEY(user_id) REFERENCES user(id));
 
 
@@ -132,6 +133,7 @@ CREATE TABLE cartItems (id int NOT NULL PRIMARY KEY,
                     product_quantity TINYINT,  
                     cart_id INT, 
                     price DECIMAL(5,1), 
+                    selected_quantity TINYINT,
                     FOREIGN KEY(user_id) REFERENCES user(id),
                     FOREIGN KEY(product_id) REFERENCES product(id),
                     FOREIGN KEY(cart_id) REFERENCES cart(id));

@@ -1,19 +1,21 @@
 import { Catagory } from './../interface/dashboard';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , OnChanges, SimpleChange, SimpleChanges } from '@angular/core';
 import { MyEvent } from '../../interface/event';
 import {DashboardService} from '../dashboard.service';
 import {CATAGORY} from "../../helpers/constant"
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit  {
   catagoryList = CATAGORY;
   catagories: Catagory[] ;
+  public Loading:boolean = true;
   public SelectedCakePrice:'string';
 
-  constructor(private DashboardService:DashboardService) { 
+  constructor(private DashboardService:DashboardService, private router:Router) { 
 
     this.catagories = [];
   }
@@ -25,21 +27,20 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
 
-     this.DashboardService.getProduct().subscribe(data =>{
-      
-      console.log(data, "data")
-      this.productList = data
-     })
+     this.DashboardService.getProduct().subscribe();
 
+     this.DashboardService.productList.subscribe((data)=> {
+         this.productList = data
+         this.Loading =false;
+     });
+     
      this.DashboardService.getCatagory().subscribe(data =>{
-
       this.catagories = data;
      })
     this.layoutBreakDown();
 }
 
   onResize =(event) =>{
-   
     this.layoutBreakDown(event)    
 }
   
@@ -53,15 +54,13 @@ layoutBreakDown =(event: MyEvent | void) =>{
 
 public onQuantityChange({value}, index){
 let selectedCakeQuantity = Number(value).toFixed(1);
-this.productList[index].selectedProduct = value;
-this.productList[index].selectedProductPrice = this.productList[index].prices[selectedCakeQuantity]
+this.productList[index].selectedProductQuantity = value;
+this.productList[index].selectedProductPrice = this.productList[index].prices[selectedCakeQuantity] * this.productList[index].selectedProductCount
 }
 
 public cupCakeBoxChange($event, index){
-  let selectedCakeQuantity = Number(this.productList[index].quantities[0]).toFixed(1);
- 
+  let selectedCakeQuantity = Number(this.productList[index].selectedProductQuantity).toFixed(1);
   let userValue = $event.target.value;
-  
   if(userValue < 0 || !userValue) {  
     this.productList[index].selectedProductCount = 1;
     this.productList[index].selectedProductPrice = this.productList[index].prices[selectedCakeQuantity]
@@ -72,7 +71,14 @@ public cupCakeBoxChange($event, index){
 }
 
 public onCatagorySelection($event){
-
+   let requestObj = { catagory :$event.source._value }
+   this.DashboardService.setProductFilter(requestObj)
+   this.DashboardService.getProduct().subscribe();
   console.log($event.source._value, "SELECTINO")
+}
+
+public toAddCart(productId:number){
+  console.log(productId, "productId")
+this.router.navigate(['user/cart']);
 }
 }

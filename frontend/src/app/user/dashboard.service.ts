@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable  } from 'rxjs';
+import { Observable , Subject } from 'rxjs';
 import {Endpoints} from "src/app/helpers/endpoints";
 import {Catagory, ProductFilter, ProductResponse} from "./interface/dashboard"
 import { map } from 'rxjs/operators';
@@ -23,36 +23,40 @@ export class DashboardService {
     return this.Filter;
   }
   
-  public set productFilter(userFiler:ProductFilter) {
-
+  public  setProductFilter(userFiler:ProductFilter) {
       this.Filter = userFiler;
   }
 
-  public getProduct():Observable<ProductResponse[]> {
+
+  public productList:Subject<ProductResponse[]>= new Subject<ProductResponse[]>()
+
+
+ 
+  public getProduct():Observable<void> {
     return  this.http.post<ProductResponse[]>(Endpoints.GET_PRODUCT, this.productFilter).pipe(
      
     map((response:ProductResponse[]) => {
       
-      return response.map(datum => { 
-
-          if(datum.catagory === CATAGORY.CAKE){
-          let selectedProduct = Number(datum.quantities[0]).toFixed(1)
-  
+      let product =  response.map(datum => { 
+        let selectedProductQuantity = Number(datum.quantities[0]).toFixed(1)
+          if(datum.catagory === CATAGORY.CAKE){ 
           return {
             ...datum, 
-            selectedProduct,
-            selectedProductPrice: datum.prices[selectedProduct]
+            selectedProductQuantity,
+            selectedProductCount:1,
+            selectedProductPrice: datum.prices[selectedProductQuantity]
           }
         }else{
-          let selectedProduct = Number(datum.quantities[0]).toFixed(1)
           return {
-            ...datum, 
+            ...datum,
+            selectedProductQuantity,  
             selectedProductCount:1,
-            selectedProductPrice: datum.prices[selectedProduct]
+            selectedProductPrice: datum.prices[selectedProductQuantity]
           }
         }
         })
     
+        this.productList.next(product)
       })
     )
   }

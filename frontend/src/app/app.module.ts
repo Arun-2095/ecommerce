@@ -7,10 +7,9 @@ import { ThemeModule } from './theme.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {ErrorHandlingInterceptorService} from '../app/service/error-handling-interceptor.service'
 import { ToastrModule } from 'ngx-toastr';
+
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
