@@ -1,0 +1,9 @@
+.cart-table{
+    width: 90%;
+    margin: 1rem auto;
+
+}
+
+.cart-table td,th.mat-header-cell {
+    text-align: center;
+  }

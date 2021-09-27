@@ -5,7 +5,7 @@ const saltRounds = 10;
 
 function RegistrationModel(userData = {}) {
   return new Promise((resolve, reject) => {
-    sqlconnection.query(`SELECT COUNT(email) as email FROM user WHERE email = '${userData.email}'`, (error, result) => {
+    sqlconnection.query(`SELECT COUNT(email) as email FROM user WHERE email = ?`, [userData.email], (error, result) => {
       if (error) {
         reject(new ServerError(400, error.message, error));
       } else {
@@ -16,7 +16,8 @@ function RegistrationModel(userData = {}) {
             }
 
             sqlconnection.query(
-              `INSERT INTO user (name, email, password ) VALUES('${userData.userName}','${userData.email}','${hash}')`,
+              `INSERT INTO user (name, email, password ) VALUES(?,?,?)`,
+              [userData.userName, userData.email, hash],
               (error, result) => {
                 if (error) {
                   reject(new ServerError(400, error.message, error));
@@ -36,7 +37,7 @@ function RegistrationModel(userData = {}) {
 
 function loginAuthenticationModel(userData = {}) {
   return new Promise((resolve, reject) => {
-    sqlconnection.query(`SELECT id, password FROM user WHERE email = '${userData.email}'`, (error, result) => {
+    sqlconnection.query(`SELECT id, password FROM user WHERE email = ?`, [userData.email], (error, result) => {
       if (error) {
         reject(new ServerError(400, error.message, error));
       } else {
@@ -61,7 +62,8 @@ function loginAuthenticationModel(userData = {}) {
 function getUserDetailModel(userData = {}) {
   return new Promise((resolve, reject) => {
     sqlconnection.query(
-      `SELECT name as userName , email, address FROM user WHERE email = '${userData.email}'`,
+      `SELECT name as userName , email, address FROM user WHERE email = ?`,
+      [userData.email],
       (error, result) => {
         if (error) {
           reject(new ServerError(401, error, []));

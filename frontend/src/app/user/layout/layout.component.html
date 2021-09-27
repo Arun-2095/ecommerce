@@ -1,6 +1,8 @@
  <mat-toolbar color='accent'>
   <span style='flex:1 auto'>Shop</span>
-
+  <button mat-icon-button *ngIf="cartItems > 0"  (click)="redirectToCart()">
+    <mat-icon [matBadge]="cartItems"  matBadgeColor="primary">shopping_cart</mat-icon> 
+  </button>
   <button mat-icon-button [matMenuTriggerFor]="menu" >
     <mat-icon>more_vert</mat-icon>
   </button>
@@ -9,7 +11,7 @@
       <mat-icon> tag_faces  </mat-icon>
       <span>Profile</span>
     </button>
-    <button mat-menu-item>
+    <button mat-menu-item (click)="logout()">
       <mat-icon> logout</mat-icon>
       <span> logout</span>
     </button>

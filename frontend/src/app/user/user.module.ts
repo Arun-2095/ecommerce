@@ -9,9 +9,10 @@ import { UserService } from '../service/user.service';
 import {DashboardService} from './dashboard.service';
 import { CartComponent } from './cart/cart.component';
 import { DirectiveModule } from '../directives/directive.module';
+import { WeightPipe } from './pipe/weight.pipe';
 
 @NgModule({
-  declarations: [LayoutComponent, DashboardComponent, OrderComponent, CartComponent],
+  declarations: [LayoutComponent, DashboardComponent, OrderComponent, CartComponent, WeightPipe],
   imports: [
     CommonModule,
     UserRoutingModule,

@@ -2,6 +2,8 @@ const OrderRouter = require('express').Router();
 const OrderController = require('../controller/orderController');
 const AuthController = require('../controller/authController');
 
-OrderRouter.post('/addtoCart', AuthController.validateWebToken, OrderController.addToCart);
+OrderRouter.post('/add-to-cart', AuthController.validateWebToken, OrderController.addToCart);
+OrderRouter.delete('/add-to-cart', AuthController.validateWebToken, OrderController.removeCartItem);
+OrderRouter.get('/get-cart-items', AuthController.validateWebToken, OrderController.getCartItems);
 
 module.exports = OrderRouter;

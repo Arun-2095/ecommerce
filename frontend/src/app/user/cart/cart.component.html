@@ -1,1 +1,45 @@
-<p>cart works!</p>
+
+<table mat-table [dataSource]="cartItems" class="cart-table">
+
+
+  <ng-container  matColumnDef="Product">
+    <th mat-header-cell *matHeaderCellDef> Product Name </th>
+    <td mat-cell *matCellDef="let row"> {{row.product_name}} </td>
+    <td mat-footer-cell *matFooterCellDef> </td>
+  </ng-container>
+  <ng-container  matColumnDef="Quantity">
+    <th mat-header-cell *matHeaderCellDef> Product Quantity </th>
+    <td mat-cell *matCellDef="let row"> {{row.product_quantity | weight:row.catagory}} </td>
+    <td mat-footer-cell *matFooterCellDef></td>
+  </ng-container>
+  <ng-container  matColumnDef="Price">
+    <th mat-header-cell *matHeaderCellDef> Product Price </th>
+    <td mat-cell *matCellDef="let row"> {{row.product_price  |  currency:'INR'}} </td>
+    <td mat-footer-cell *matFooterCellDef></td>
+  </ng-container>
+  <ng-container  matColumnDef="Selected Product">
+    <th mat-header-cell *matHeaderCellDef> selected Count </th>
+    <td mat-cell *matCellDef="let row"> {{row.selected_product}} </td>
+    <td mat-footer-cell *matFooterCellDef>Total </td>
+  </ng-container>
+  <ng-container  matColumnDef="Total">
+    <th mat-header-cell *matHeaderCellDef>Price </th>
+    <td mat-cell *matCellDef="let row"> {{row.price |  currency:'INR'}} </td>
+    <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency:'INR'}} </td>
+  </ng-container>
+  <ng-container  matColumnDef="Action">
+    <th mat-header-cell *matHeaderCellDef> Action </th>
+    <td mat-cell *matCellDef="let row"> <button  mat-icon-button (click)="deleteItem(row)"> 
+      <mat-icon> delete</mat-icon>
+    </button> </td>
+    <td mat-footer-cell *matFooterCellDef> <button  mat-raised-button color="primary" (click)="placeOrder()"> 
+
+     place Order</button></td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="tableColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: tableColumns;"></tr>
+  <tr mat-footer-row *matFooterRowDef="tableColumns"></tr>
+</table>
+
+  

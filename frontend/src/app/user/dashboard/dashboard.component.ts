@@ -37,6 +37,7 @@ export class DashboardComponent implements OnInit  {
      this.DashboardService.getCatagory().subscribe(data =>{
       this.catagories = data;
      })
+
     this.layoutBreakDown();
 }
 
@@ -79,6 +80,9 @@ public onCatagorySelection($event){
 
 public toAddCart(productId:number){
   console.log(productId, "productId")
-this.router.navigate(['user/cart']);
+  this.DashboardService.addToCart(productId).subscribe((data)=>{
+    this.DashboardService.getCartItems().subscribe();
+  })
+//this.router.navigate(['user/cart']);
 }
 }

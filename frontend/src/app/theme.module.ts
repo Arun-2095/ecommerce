@@ -10,9 +10,12 @@ import {MatCardModule} from '@angular/material/card';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatRadioModule} from '@angular/material/radio'; 
+import {MatTableModule} from '@angular/material/table'; 
+import {MatBadgeModule} from '@angular/material/badge';
 
 const MaterialModules = [MatButtonModule, MatToolbarModule, MatIconModule , 
-  MatSidenavModule,MatMenuModule, MatListModule, MatGridListModule , MatCardModule, MatInputModule, MatFormFieldModule,MatRadioModule]
+  MatSidenavModule,MatMenuModule, MatListModule, MatGridListModule , MatCardModule, MatInputModule, MatFormFieldModule,MatRadioModule,
+  MatTableModule,MatBadgeModule]
 
 @NgModule({
   declarations: [],

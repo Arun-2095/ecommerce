@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable , Subject } from 'rxjs';
 import {Endpoints} from "src/app/helpers/endpoints";
-import {Catagory, ProductFilter, ProductResponse} from "./interface/dashboard"
-import { map } from 'rxjs/operators';
+import {Catagory, ProductFilter, ProductResponse ,CartItemResponse, DeleteCartRequest} from "./interface/dashboard"
+import { map, tap } from 'rxjs/operators';
 import { CATAGORY } from '../helpers/constant';
 
 
@@ -29,6 +29,8 @@ export class DashboardService {
 
 
   public productList:Subject<ProductResponse[]>= new Subject<ProductResponse[]>()
+
+  public cartList:Subject<CartItemResponse>= new Subject<CartItemResponse>()
 
 
  
@@ -64,4 +66,22 @@ export class DashboardService {
   public getCatagory(): Observable<Catagory[]> {
     return  this.http.get<Catagory[]>(Endpoints.GET_CATAGORY)
   }
+
+   public addToCart(cartItem): Observable<any>{
+    return this.http.post(Endpoints.ADD_TO_CART, cartItem)
+   }
+
+   public getCartItems(): Observable<CartItemResponse>{
+     return this.http.get<CartItemResponse>(Endpoints.GET_CART_ITEMS).pipe(tap(cartList =>{
+       this.cartList.next(cartList)
+     }))
+   }
+
+   public deleteCartItem(product_id:number, cart_id:number):Observable<any>{
+    let httpParams = new HttpParams().set('cart_id', cart_id.toString()).set('product_id', product_id.toString());
+
+    return this.http.delete(Endpoints.ADD_TO_CART, {params: httpParams})
+
+   }
+
 }

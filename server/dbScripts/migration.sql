@@ -72,7 +72,7 @@ SET FOREIGN_KEY_CHECKS=1;
 CREATE TABLE deliveryStatus (id TINYINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
                              delivery_status VARCHAR(25));
 
-INSERT INTO deliveryStatus (delivery_status) VALUES ('waitingForConfirmation'),('accepted'),('onProgress'),('dispatched'),('declined');
+INSERT INTO deliveryStatus (delivery_status) VALUES ('waitingForConfirmation'),('accepted'),('onProgress'),('dispatched'),('declined'),('cancelled');
 
 
 -- Invoice Table
@@ -81,10 +81,9 @@ DROP TABLE IF EXISTS invoice;
 SET FOREIGN_KEY_CHECKS=1;
 
 
-CREATE TABLE invoice (id int NOT NULL PRIMARY KEY, 
+CREATE TABLE invoice (id int NOT NULL PRIMARY KEY AUTO_INCREMENT, 
                     user_id INT, 
-                    price DECIMAL(5,1),
-                    order_status TINYINT NOT NULL, 
+                    order_status TINYINT NOT NULL DEFAULT 1, 
                     ordered_time DATETIME DEFAULT CURRENT_TIMESTAMP, 
                     delivered_time DATETIME, 
                     FOREIGN KEY(user_id) REFERENCES user(id),
@@ -97,12 +96,11 @@ DROP TABLE IF EXISTS userOrder;
 SET FOREIGN_KEY_CHECKS=1;
 
 
-CREATE TABLE userOrder (id int NOT NULL PRIMARY KEY, 
+CREATE TABLE userOrder (id int NOT NULL PRIMARY KEY AUTO_INCREMENT, 
                     user_id INT,
                     product_id INT,
-                    product_quantity TINYINT,  
                     invoice_id INT, 
-                    price DECIMAL(5,1), 
+                    selected_quantity TINYINT,
                     FOREIGN KEY(user_id) REFERENCES user(id),
                     FOREIGN KEY(product_id) REFERENCES product(id),
                     FOREIGN KEY(invoice_id) REFERENCES invoice(id));
@@ -114,10 +112,9 @@ DROP TABLE IF EXISTS cart;
 SET FOREIGN_KEY_CHECKS=1;
 
 
-CREATE TABLE cart (id int NOT NULL PRIMARY KEY, 
+CREATE TABLE cart (id int NOT NULL PRIMARY KEY AUTO_INCREMENT, 
                     user_id INT NOT NULL, 
                     ordered_time DATETIME DEFAULT CURRENT_TIMESTAMP, 
-                    total INT NOT NULL, 
                     FOREIGN KEY(user_id) REFERENCES user(id));
 
 
@@ -127,12 +124,10 @@ DROP TABLE IF EXISTS cartItems;
 SET FOREIGN_KEY_CHECKS=1;
 
 
-CREATE TABLE cartItems (id int NOT NULL PRIMARY KEY, 
+CREATE TABLE cartItems (id int NOT NULL PRIMARY KEY AUTO_INCREMENT, 
                     user_id INT,
-                    product_id INT,
-                    product_quantity TINYINT,  
+                    product_id INT,  
                     cart_id INT, 
-                    price DECIMAL(5,1), 
                     selected_quantity TINYINT,
                     FOREIGN KEY(user_id) REFERENCES user(id),
                     FOREIGN KEY(product_id) REFERENCES product(id),

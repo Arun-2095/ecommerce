@@ -45,9 +45,9 @@ App.use(function (req, res, next) {
 });
 
 // handling error
-App.use((err, req, res, next) =>
-  res.status(err.status || 500).json({ message: err.message || 'something Broken', data: err.data || [] })
-);
+App.use((err, req, res, next) => {
+  res.status(err.status || 500).json({ message: err.message || 'something Broken', data: err.data || [] });
+});
 
 App.listen(process.env.PORT, () => console.log(`Server started on ${process.env.PORT}`));
 

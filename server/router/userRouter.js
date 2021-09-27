@@ -6,7 +6,7 @@ const orderController = require('../controller/orderController');
 
 Router.post('/register', userController.registerUser);
 
-Router.post('/login', userController.loginUser, orderController.getUserCartId, authController.generateWebToken);
+Router.post('/login', userController.loginUser, authController.generateWebToken);
 
 Router.get('/getUserDetail', authController.validateWebToken, userController.getUserDetail);
 
