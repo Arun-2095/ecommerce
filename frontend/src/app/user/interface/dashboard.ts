@@ -18,8 +18,8 @@ export interface Product {
  quantities: number[],
  prices:	 {[x:string]: number },
  selectedProduct: number,
- selectedProductPrice: string
-
+ selectedProductPrice: string,
+ selectedProductCount: string
 }
 
 export interface Product {
@@ -28,8 +28,11 @@ export interface Product {
    catagory : number,
    quantities: number[],
    prices:	 {[x:string]: number },
+   idMap:{[x:string]: number },
    selectedProduct: number,
-   selectedProductPrice: string
+   selectedProductPrice: string,
+   selectedProductQuantity: string,
+   price?:string;
   
   }
 
@@ -44,6 +47,7 @@ export interface Product {
     product_id	:number;
     selected_product: string; 
     price: string;
+
   }
   export interface CartItemResponse {
     cartId : number;

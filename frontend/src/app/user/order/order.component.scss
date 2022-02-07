@@ -1,0 +1,29 @@
+.order-confirm {
+    width:90%;
+    margin: auto;
+    .cart-table{
+        width: 100%;
+    }
+.cart-table td,th.mat-header-cell {
+    text-align: center;
+  }
+
+  .mat-accordion{
+    .mat-expansion-panel-content {
+.mat-expansion-panel-body{
+    padding:0px;
+}
+}
+.add-addresss-form{
+    width: 90%;
+    margin: auto;
+}
+
+.mat-form-field-wrapper{
+    padding-bottom: 0;
+    .mat-form-field-underline{
+       bottom: 0;
+    }
+}
+}
+}

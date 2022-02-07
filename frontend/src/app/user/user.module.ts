@@ -6,10 +6,14 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ThemeModule } from '../theme.module';
 import { OrderComponent } from './order/order.component';
 import { UserService } from '../service/user.service';
-import {DashboardService} from './dashboard.service';
+import { DashboardService } from './dashboard.service';
 import { CartComponent } from './cart/cart.component';
 import { DirectiveModule } from '../directives/directive.module';
 import { WeightPipe } from './pipe/weight.pipe';
+import { FormControl, FormGroupDirective, NgForm, ReactiveFormsModule } from '@angular/forms';
+import { ModuleCommonModule } from '../module-common/module-common.module';
+import { ErrorStateMatcher } from '@angular/material/core';
+
 
 @NgModule({
   declarations: [LayoutComponent, DashboardComponent, OrderComponent, CartComponent, WeightPipe],
@@ -17,9 +21,11 @@ import { WeightPipe } from './pipe/weight.pipe';
     CommonModule,
     UserRoutingModule,
     ThemeModule,
-    DirectiveModule
+    DirectiveModule,
+    ReactiveFormsModule,
+    ModuleCommonModule
   ],
-  providers:[UserService,DashboardService]
+  providers: [UserService, DashboardService]
 })
 
 

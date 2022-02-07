@@ -132,3 +132,23 @@ CREATE TABLE cartItems (id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
                     FOREIGN KEY(user_id) REFERENCES user(id),
                     FOREIGN KEY(product_id) REFERENCES product(id),
                     FOREIGN KEY(cart_id) REFERENCES cart(id));
+
+
+-- user Address Table
+SET FOREIGN_KEY_CHECKS=0;
+DROP TABLE IF EXISTS userAddress;
+SET FOREIGN_KEY_CHECKS=1;
+
+
+CREATE TABLE userAddress (id int NOT NULL PRIMARY KEY AUTO_INCREMENT, 
+                    user_id INT,
+                    name 
+                    number 
+                    address
+                    street 
+                    taluk
+                    city
+                    landMark
+                    isSelected
+                    FOREIGN KEY(user_id) REFERENCES user(id));
+                    

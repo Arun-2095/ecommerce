@@ -15,7 +15,7 @@ const routes: Routes = [{
     component: DashboardComponent,
    },
    {
-    path: 'orders',
+    path: 'order',
     component: OrderComponent,
    },
    {

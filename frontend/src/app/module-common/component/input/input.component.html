@@ -1,0 +1,39 @@
+<div #fields>
+
+  <div class="mb-3">
+
+    <mat-form-field appearance="fill"  class="w-100">
+      <mat-label>{{label}}</mat-label>
+
+      <input
+      *ngIf="component === 'input';else elseBlock"
+       matInput 
+      [name]="name" 
+      class='input'
+     [formControl]="control" 
+     >
+
+     <ng-template #elseBlock>
+     <textarea
+      matInput 
+      [name]="name" 
+      class='input'
+     [formControl]="control" >
+
+     </textarea>
+   </ng-template>
+     <mat-error *ngIf="control.errors?.required">
+      {{name}} is required.
+    </mat-error>
+
+    <mat-error *ngIf="control.errors?.minlength">
+      {{name}} should atleast have {{ control.errors?.minlength?.requiredLength}} Characters
+    </mat-error>
+
+    <mat-error *ngIf="control.errors?.pattern">
+      please enter valid {{name}} 
+    </mat-error>
+
+    </mat-form-field>
+  </div>
+</div>

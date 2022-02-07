@@ -12,10 +12,13 @@ import {MatInputModule} from '@angular/material/input';
 import {MatRadioModule} from '@angular/material/radio'; 
 import {MatTableModule} from '@angular/material/table'; 
 import {MatBadgeModule} from '@angular/material/badge';
+import {MatExpansionModule} from '@angular/material/expansion'; 
+import {MatDatepickerModule} from '@angular/material/datepicker'; 
+import {MatNativeDateModule} from '@angular/material/core';
 
 const MaterialModules = [MatButtonModule, MatToolbarModule, MatIconModule , 
   MatSidenavModule,MatMenuModule, MatListModule, MatGridListModule , MatCardModule, MatInputModule, MatFormFieldModule,MatRadioModule,
-  MatTableModule,MatBadgeModule]
+  MatTableModule,MatBadgeModule,MatExpansionModule,MatDatepickerModule,MatNativeDateModule]
 
 @NgModule({
   declarations: [],

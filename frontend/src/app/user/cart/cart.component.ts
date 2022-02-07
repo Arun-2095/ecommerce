@@ -2,7 +2,7 @@ import { Product } from './../interface/dashboard';
 import { DashboardService } from './../dashboard.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CartItem } from '../interface/dashboard';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -10,7 +10,7 @@ import { CartItem } from '../interface/dashboard';
 })
 export class CartComponent implements OnInit  {
 
-  constructor(private DashboardService: DashboardService) { 
+  constructor(private DashboardService: DashboardService, private router:Router) { 
 
   this.DashboardService.cartList.subscribe((cartList)=> {
     console.log(cartList, "CART DATA")
@@ -55,7 +55,8 @@ this.DashboardService.deleteCartItem(product_id,this.cartId).subscribe((data)=>{
 }
 
 placeOrder(){
-  
+
+  this.router.navigate(['/user/order'], {state:{product: this.cartItems}})
   console.log(this.cartItems, "TEST")
 
 }

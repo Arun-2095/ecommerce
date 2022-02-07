@@ -1,4 +1,4 @@
-import { Catagory } from './../interface/dashboard';
+import { Catagory, Product } from './../interface/dashboard';
 import { Component, OnInit , OnChanges, SimpleChange, SimpleChanges } from '@angular/core';
 import { MyEvent } from '../../interface/event';
 import {DashboardService} from '../dashboard.service';
@@ -84,5 +84,15 @@ public toAddCart(productId:number){
     this.DashboardService.getCartItems().subscribe();
   })
 //this.router.navigate(['user/cart']);
+}
+
+public takeOrder(product:Product) {
+  console.log("takeOrder", product)
+
+  let selectProduct = { ...product, product_quantity: product.selectedProductQuantity , 
+           product_price : product.prices[product.selectedProductQuantity] ,
+           selected_product: product.selectedProductCount,
+           price : product.selectedProductPrice}
+  this.router.navigate(['user/order'],{state:{product:[].concat(selectProduct)}});
 }
 }
