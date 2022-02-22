@@ -62,7 +62,7 @@ function loginAuthenticationModel(userData = {}) {
 function getUserDetailModel(userData = {}) {
   return new Promise((resolve, reject) => {
     sqlconnection.query(
-      `SELECT name as userName , email, address FROM user WHERE email = ?`,
+      `SELECT name as userName , email FROM user WHERE email = ?`,
       [userData.email],
       (error, result) => {
         if (error) {
@@ -75,4 +75,22 @@ function getUserDetailModel(userData = {}) {
   });
 }
 
-module.exports = { RegistrationModel, loginAuthenticationModel, getUserDetailModel };
+function addUserAddress(userAddress = {}) {
+  const {user_id,name , phone, address, street, taluk , city ,landMark} = userAddress
+  return new Promise((resolve, reject) => {
+    sqlconnection.query(
+        `INSERT INTO userAddress (user_id,name , phone, address, street, taluk , city ,landMark)
+         VALUES (?, ? , ? , ?, ?, ?, ? , ?);`,
+      [user_id,name , phone, address, street, taluk , city ,landMark],
+      (error, result) => {
+        if (error) {
+          reject(new ServerError(400, error, []));
+        } else {
+          resolve({ message: 'new Address added successfully' });
+        }
+      }
+    );
+  });
+}
+
+module.exports = { RegistrationModel, loginAuthenticationModel, getUserDetailModel ,addUserAddress };

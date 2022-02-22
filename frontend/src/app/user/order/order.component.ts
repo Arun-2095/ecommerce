@@ -1,8 +1,9 @@
+import { Observable } from 'rxjs';
 import { Product } from './../interface/dashboard';
 import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Location } from '@angular/common'
 import { FormBuilder, Validators } from '@angular/forms';
-
+import { DashboardService } from './../dashboard.service';
 
 @Component({
   selector: 'app-order',
@@ -16,21 +17,27 @@ export class OrderComponent implements OnInit {
 
   public step: number = 0;
 
-  constructor(private Location: Location, private Form: FormBuilder) { }
+  constructor(private Location: Location, private Form: FormBuilder, private DashboardService: DashboardService) { }
 
   public addressForm = this.Form.group({
-    name: ['', [Validators.required,  Validators.minLength(4)]],
+    name: ['', [Validators.required, Validators.minLength(4)]],
     phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
     address: ['', [Validators.required, Validators.minLength(4)]],
     street: ['', [Validators.required, Validators.minLength(4)]],
-    nagar: ['', [Validators.required, Validators.minLength(4)]],
+    taluk: ['', [Validators.required, Validators.minLength(4)]],
     city: ['', [Validators.required, Validators.minLength(4)]],
     landMark: ['', [Validators.required, Validators.minLength(4)]]
   })
 
 
   public async addAddress() {
-    console.log(this.addressForm, "form")
+
+    if (this.addressForm.valid) {
+      this.DashboardService.addAddress({ address: this.addressForm.value }).subscribe(
+        (response) => console.log(response, "RESPONE")
+      )
+    }
+
 
   }
   ngOnInit(): void {

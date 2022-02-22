@@ -1,41 +1,21 @@
 
 
-const {RegisterForm , loginFormValidation}  = require('./../services/validation');
+const {RegisterForm , }  = require('./../services/validation');
 
-const { RegistrationModel , loginAuthenticationModel , getUserDetailModel} = require('./../model/userModel');
+const { RegistrationModel , loginAuthenticationModel , getUserDetailModel ,addUserAddress} = require('./../model/userModel');
 
 const registerUser = (req, res, next)=>{
-
-
-let { value, error} =RegisterForm.validate(req.body) 
-
-if(error){
-    let {details} = error;
-    next(new ServerError(401, details[0].message, [] )); 
-}else{
-    RegistrationModel(value).then((data) => res.status(200).json(data) ).catch((err)=> next(err))
-}
-
+    RegistrationModel(req.body).then((data) => res.status(200).json(data) ).catch((err)=> next(err))
 }
 
 
 const loginUser = (req, res, next)=>{
 
-
-    let { value, error }  = loginFormValidation.validate(req.body)
-
-    if(error){
-        let {details} = error;
-        next(new ServerError(401, details[0].message, [] )); 
-    }else{
-        loginAuthenticationModel(value).then((data) => { 
-            
+        loginAuthenticationModel(req.body).then((data) => {             
             req.userData = data;
             next();
-          
         }).catch((err) => next(err))
-    }
-        
+
 }
 
 const getUserDetail = (req, res, next)=>{
@@ -47,5 +27,21 @@ const getUserDetail = (req, res, next)=>{
                
 }
 
+const addAddress = (req, res, next)=>{
+     
+    console.log(req.body,req.userData,"req.body")
+     let requestObject  = {
+         user_id : req.userData?.userId,
+         ...req.body?.address
+     }
+    
+    addUserAddress(requestObject).then((userDetail)=>{
+       res.status(200).json(userDetail) 
+    }).catch(err => next(err))  
+               
+}
 
-module.exports = {registerUser, loginUser , getUserDetail}
+
+
+
+module.exports = {registerUser, loginUser , getUserDetail ,addAddress}

@@ -25,7 +25,6 @@ CREATE TABLE user (id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
                    email VARCHAR(30), 
                    password VARCHAR(70), 
                    user_type TINYINT NOT NULL DEFAULT 2,
-                   address VARCHAR(250),
                    FOREIGN KEY(user_type) REFERENCES userType(id));
 
 
@@ -142,13 +141,13 @@ SET FOREIGN_KEY_CHECKS=1;
 
 CREATE TABLE userAddress (id int NOT NULL PRIMARY KEY AUTO_INCREMENT, 
                     user_id INT,
-                    name 
-                    number 
-                    address
-                    street 
-                    taluk
-                    city
-                    landMark
-                    isSelected
+                    name VARCHAR(50),
+                    phone VARCHAR(50),
+                    address VARCHAR(50),
+                   street VARCHAR(100),
+                    taluk VARCHAR(100),
+                   city VARCHAR(100),
+                   landMark VARCHAR(50),
+                 isSelected BIT DEFAULT 0,
                     FOREIGN KEY(user_id) REFERENCES user(id));
                     
