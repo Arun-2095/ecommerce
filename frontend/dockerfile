@@ -1,0 +1,14 @@
+FROM mhart/alpine-node:14.16.1
+
+WORKDIR /App
+
+COPY package.json  .
+
+RUN npm install 
+
+COPY . .
+
+EXPOSE 4200
+
+CMD npm start;
+

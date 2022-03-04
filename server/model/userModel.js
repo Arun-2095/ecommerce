@@ -93,4 +93,22 @@ function addUserAddress(userAddress = {}) {
   });
 }
 
-module.exports = { RegistrationModel, loginAuthenticationModel, getUserDetailModel ,addUserAddress };
+const getUserAddressModel = (userData = {}) =>{
+  let  { user_id } = userData 
+  return new Promise((resolve, reject) => {
+    sqlconnection.query(
+        `SELECT * FROM userAddress WHERE user_id = ?`,
+      [user_id],
+      (error, result) => {
+        if (error) {
+          reject(new ServerError(400, error, []));
+        } else {
+          resolve(result);
+        }
+      }
+    );
+  });
+
+}
+
+module.exports = { RegistrationModel, loginAuthenticationModel, getUserDetailModel ,addUserAddress , getUserAddressModel };

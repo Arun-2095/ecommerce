@@ -1,0 +1,16 @@
+FROM mhart/alpine-node:14.16.1
+
+WORKDIR /Server
+
+RUN npm install -g nodemon
+
+COPY package.json  .
+
+RUN npm install 
+
+COPY . .
+
+EXPOSE 8090
+
+CMD npm start;
+

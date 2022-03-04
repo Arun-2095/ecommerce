@@ -46,6 +46,10 @@ export class OrderComponent implements OnInit {
     } else {
       this.Location.back()
     }
+
+    this.DashboardService.getAddress().subscribe((address) => {
+      console.log(address, "ADDRESS")
+    })
   }
 
   setStep(index: number) {

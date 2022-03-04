@@ -12,6 +12,9 @@ Router.post('/login',validateMiddleware('LOGIN'), userController.loginUser, auth
 
 Router.get('/getUserDetail', authController.validateWebToken, userController.getUserDetail);
 
-Router.post('/add-address', authController.validateWebToken, validateMiddleware('ADDRESS'), userController.addAddress);
+Router.post('/address', authController.validateWebToken, validateMiddleware('ADDRESS'), userController.addAddress);
+
+Router.get('/address', authController.validateWebToken  , userController.getUserAddress);
+
 
 module.exports = Router;

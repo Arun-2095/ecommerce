@@ -2,7 +2,7 @@
 
 const {RegisterForm , }  = require('./../services/validation');
 
-const { RegistrationModel , loginAuthenticationModel , getUserDetailModel ,addUserAddress} = require('./../model/userModel');
+const { RegistrationModel , loginAuthenticationModel , getUserDetailModel ,addUserAddress , getUserAddressModel} = require('./../model/userModel');
 
 const registerUser = (req, res, next)=>{
     RegistrationModel(req.body).then((data) => res.status(200).json(data) ).catch((err)=> next(err))
@@ -10,7 +10,7 @@ const registerUser = (req, res, next)=>{
 
 
 const loginUser = (req, res, next)=>{
-
+  
         loginAuthenticationModel(req.body).then((data) => {             
             req.userData = data;
             next();
@@ -42,6 +42,17 @@ const addAddress = (req, res, next)=>{
 }
 
 
+const getUserAddress = (req, res, next)=>{
+     
+     let requestObject  = {
+         user_id : req.userData?.userId,
+     }
+    getUserAddressModel(requestObject).then((userDetail)=>{
+       res.status(200).json(userDetail) 
+    }).catch(err => next(err))  
+               
+}
 
 
-module.exports = {registerUser, loginUser , getUserDetail ,addAddress}
+
+module.exports = {registerUser, loginUser , getUserDetail ,addAddress , getUserAddress}

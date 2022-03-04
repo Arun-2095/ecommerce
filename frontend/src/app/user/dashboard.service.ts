@@ -89,4 +89,9 @@ export class DashboardService {
     return this.http.post(Endpoints.ADD_ADDRESS, data)
   }
 
+  public getAddress(): Observable<any> {
+    return this.http.get(Endpoints.ADD_ADDRESS)
+  }
+
+
 }
