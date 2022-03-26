@@ -12,5 +12,5 @@ COPY . .
 
 EXPOSE 8090
 
-CMD npm start;
+CMD sleep 10 && npm start;
 

@@ -1,5 +1,5 @@
 const sqlconnection = require('./../services/dbConnection');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 const saltRounds = 10;
 
