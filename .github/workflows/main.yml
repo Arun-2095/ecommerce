@@ -20,7 +20,7 @@ jobs:
     name: setup
     runs-on: ubuntu-latest
     steps:
-      - name: executing remote ssh commands using password
+      - name: connect to server Perform deployment operation
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
