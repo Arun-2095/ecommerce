@@ -29,4 +29,4 @@ jobs:
           port: 22
           script: |
             whoami
-            echo $(ls)
+            ls -al
