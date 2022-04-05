@@ -23,8 +23,8 @@ jobs:
       - name: connect to server Perform deployment operation
         uses: appleboy/ssh-action@master
         with:
-          host: 3.6.87.190
-          username: ubuntu
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
           key: ${{ secrets.HOME_KEY }}
           port: 22
           script: |
