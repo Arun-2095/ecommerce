@@ -30,3 +30,4 @@ jobs:
           script: |
             whoami
             ls -a
+            git clone https://github.com/Arun-2095/ecommerce.git
