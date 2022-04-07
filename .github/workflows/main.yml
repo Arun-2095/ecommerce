@@ -28,6 +28,6 @@ jobs:
           key: ${{ secrets.HOME_KEY }}
           port: 22
           script: |
-            whoami
-            ls -a
+            cd /home/${USER}
+            rm -rfv ecommerce
             git clone https://github.com/Arun-2095/ecommerce.git
