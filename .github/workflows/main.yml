@@ -33,3 +33,8 @@ jobs:
             sleep 60
             echo "started cloning"
             git clone https://github.com/Arun-2095/ecommerce.git
+            cd ecommerce
+            docker-compose down
+            docker system prune -f
+            docker-compose build 
+            docker-compose down

@@ -1,10 +1,10 @@
 version: "3.8"
 services:
-  db:
+  database:
     image: mysql:8.0
-    container_name: database
+    container_name: database_container
     environment:
-      MYSQL_ROOT_PASSWORD: doodleblue
+      MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: shop
     volumes:
       - D:/mysqlData:/var/lib/mysql
@@ -19,6 +19,6 @@ services:
     build: ./frontend
     container_name: frontend_container
     ports:
-      - 4200:4200
+      - 80:80
     depends_on:
       - server
