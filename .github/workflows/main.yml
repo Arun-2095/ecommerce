@@ -37,4 +37,4 @@ jobs:
             docker-compose down
             docker system prune -f
             docker-compose build 
-            docker-compose down
+            APP_VOLUME=/home/${USER}/appDataBase docker-compose up

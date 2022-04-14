@@ -7,7 +7,7 @@ services:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: shop
     volumes:
-      - D:/mysqlData:/var/lib/mysql
+      - ${APP_VOLUME}:/var/lib/mysql
   server:
     build: ./server
     container_name: server_container
