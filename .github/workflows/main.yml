@@ -28,12 +28,9 @@ jobs:
           key: ${{ secrets.HOME_KEY }}
           port: 22
           script: |
-            cd /home/${USER}
-            rm -rfv ecommerce
-            sleep 60
-            echo "started cloning"
-            git clone https://github.com/Arun-2095/ecommerce.git
-            cd ecommerce
+            cd /home/${USER}/ecommerce
+            echo "started pull latest updates"
+            git pull 
             docker-compose down
             docker system prune -f
             docker-compose build 
