@@ -7,7 +7,7 @@ services:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: shop
     volumes:
-      - D:/mysqlData:/var/lib/mysql
+      - ${APP_VOLUME}:/var/lib/mysql
   server:
     build: ./server
     container_name: server_container
@@ -15,10 +15,10 @@ services:
       - 8090:8090
     depends_on:
       - database
-  # frontend:
-  #   build: ./frontend
-  #   container_name: frontend_container
-  #   ports:
-  #     - 80:80
-  #   depends_on:
-  #     - server
+  frontend:
+    build: ./frontend
+    container_name: frontend_container
+    ports:
+      - 80:80
+    depends_on:
+      - server
