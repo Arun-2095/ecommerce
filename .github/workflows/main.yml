@@ -15,7 +15,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "connect with ec2 Server sdfsdz"
+  # This workflow contains a single job called "connect with ec2 ServerE"
   job_one:
     name: setup
     runs-on: ubuntu-latest
