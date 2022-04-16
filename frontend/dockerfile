@@ -1,6 +1,4 @@
-#  setingup  the server 
-
-FROM nginx:1.21.6-alpine
+FROM mhart/alpine-node:14.16.1 as builder
 
 WORKDIR /App
 
@@ -12,7 +10,14 @@ COPY . .
 
 RUN npm run build;
 
+
+#  setingup  the server 
+
+FROM nginx:1.21.6-alpine
+
 COPY nginx.conf /etc/nginx/nginx.conf
+
+COPY --from=builder /App/public  /var/www
 
 EXPOSE 4200
 
