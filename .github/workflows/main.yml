@@ -29,12 +29,12 @@ jobs:
           port: 22
           script: |
             cd /home/${USER}/ecommerce
-            echo  -e "\033[1;31mstarted pull latest updates\033[0m\n"
+            echo -e "\033[1;31mstarted pull latest updates\033[0m\n"
             git pull 
-            echo  -e "\033[1;31mRemoving Previous Docker container\033[0m\n"
+            echo -e "\033[1;31mRemoving Previous Docker container\033[0m\n"
             docker-compose down
             docker system prune -f
-            echo  -e "\033[1;31mBuilding Images \033[0m\n"
+            echo -e "\033[1;31mBuilding Images \033[0m\n"
             docker-compose build 
             echo -e "\033[1;31mCreating the container  \033[0m\n"
             APP_VOLUME=/home/${USER}/appDataBase docker-compose up -d
