@@ -18,6 +18,7 @@ jobs:
   # This workflow contains a single job called "connect with ec2 Server"
   job_one:
     name: Deploy on Prod
+    runs-on: ubuntu-latest
     environment: PROD
     steps:
       - name: connect to server Perform deployment operations
