@@ -52,6 +52,6 @@ App.use((err, req, res, next) => {
 App.listen(process.env.PORT, () => console.log(`Server started on ${process.env.PORT}`));
 
 process.on('SIGINT', (code, test) => {
-  console.log(`\n ****Server shutdown on ${process.env.PORT}, DB closed ****`);
+  console.log(`\n ****Server shutdown on ${process.env.PORT}, ${process.env.ENV_PORT} DB closed ****`);
   process.exit(1);
 });

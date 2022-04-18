@@ -17,8 +17,8 @@ on:
 jobs:
   # This workflow contains a single job called "connect with ec2 ServerE"
   job_one:
-    name: setup
-    runs-on: ubuntu-latest
+    name: Deploy on Prod
+    environment: PROD
     steps:
       - name: connect to server Perform deployment operations
         uses: appleboy/ssh-action@master
@@ -27,6 +27,7 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.HOME_KEY }}
           port: 22
+          envs: PROD
           script: |
             cd /home/${USER}/ecommerce
             echo -e "\033[1;31mstarted pull latest updates\033[0m\n"
