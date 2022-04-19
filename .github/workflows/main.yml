@@ -34,7 +34,7 @@ jobs:
             echo -e "\033[1;31mstarted pull latest updates\033[0m\n"
             git pull
             echo -e "\033[1;31mSetting up the ENV\033[0m\n"
-            source envSetter.sh
+            echo ${{env.ENV_PORT }} 
             echo -e "\033[1;31mRemoving Previous Docker container\033[0m\n"
             docker-compose down
             docker system prune -f
