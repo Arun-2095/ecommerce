@@ -49,7 +49,7 @@ App.use((err, req, res, next) => {
   res.status(err.status || 500).json({ message: err.message || 'something Broken', data: err.data || [] });
 });
 
-App.listen(process.env.PORT, () => console.log(`Server started on ${process.env.PORT}and ${process.env.ENV_PORT}`));
+App.listen(process.env.PORT, () => console.log(`Server started on ${process.env.PORT}and ${process.env.ENV_PORT} env from source`));
 
 process.on('SIGINT', (code, test) => {
   console.log(`\n ****Server shutdown on ${process.env.PORT}, ${process.env.ENV_PORT} DB closed ****`);
