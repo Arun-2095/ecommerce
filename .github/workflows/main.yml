@@ -28,19 +28,18 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.HOME_KEY }}
           port: 22
+          passphrase: ${{secrets.PASS_PHRASE}}
           script_stop: true
           script: |
-            # cd /home/${USER}/ecommerce
-            # echo -e "\033[1;31mstarted pull latest updates\033[0m\n"
-            # git pull 
-            # echo -e "\033[1;31mRemoving Previous Docker container\033[0m\n"
-            # docker-compose down
-            # docker system prune -f
-            echo -e "\033[1;31mSetting up the ENV\033[0m\n"
-            echo ${{ secrets.ENV_PORT }}
-            # echo -e "\033[1;31mBuilding Images \033[0m\n"
-            # docker-compose build 
-            # echo -e "\033[1;31mCreating the container  \033[0m\n"
-            # APP_VOLUME=/home/${USER}/appDataBase docker-compose up -d
-            # echo -e "\033[1;32mDeployment Completed  \033[0m\n"
+            cd /home/${USER}/ecommerce
+            echo -e "\033[1;31mstarted pull latest updates\033[0m\n"
+            git pull 
+            echo -e "\033[1;31mRemoving Previous Docker container\033[0m\n"
+            docker-compose down
+            docker system prune -f
+            echo -e "\033[1;31mBuilding Images \033[0m\n"
+            docker-compose build 
+            echo -e "\033[1;31mCreating the container  \033[0m\n"
+            APP_VOLUME=/home/${USER}/appDataBase docker-compose up -d
+            echo -e "\033[1;32mDeployment Completed  \033[0m\n"
              exit
