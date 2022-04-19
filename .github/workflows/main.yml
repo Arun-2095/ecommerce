@@ -29,12 +29,12 @@ jobs:
           key: ${{ secrets.HOME_KEY }}
           port: 22
           script_stop: true
-          envs: PROD
           script: |
-            source PROD
             cd /home/${USER}/ecommerce
             echo -e "\033[1;31mstarted pull latest updates\033[0m\n"
-            git pull 
+            git pull
+            echo -e "\033[1;31mSetting up the ENV\033[0m\n"
+            source envSetter.sh
             echo -e "\033[1;31mRemoving Previous Docker container\033[0m\n"
             docker-compose down
             docker system prune -f
