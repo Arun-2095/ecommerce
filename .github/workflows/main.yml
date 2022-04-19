@@ -37,7 +37,7 @@ jobs:
             # docker-compose down
             # docker system prune -f
             echo -e "\033[1;31mSetting up the ENV\033[0m\n"
-            echo $ENV_PORT 
+            echo ${{ secrets.$ENV_PORT }}
             # echo -e "\033[1;31mBuilding Images \033[0m\n"
             # docker-compose build 
             # echo -e "\033[1;31mCreating the container  \033[0m\n"
