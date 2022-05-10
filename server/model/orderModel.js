@@ -1,49 +1,62 @@
-const sqlconnection = require('./../services/dbConnection');
+const sqlconnection = require("./../services/dbConnection");
 
 const orderModel = {};
 
 orderModel.getUserCartId = function (requestObj) {
   const { userData } = requestObj;
   return new Promise(function (resolve, reject) {
-    sqlconnection.query(`SELECT id as cartId FROM cart WHERE user_id = ?`, [userData.userId], (error, result) => {
-      if (error) {
-        reject(new ServerError(400, error.message, error));
-      } else {
-        resolve(result[0]);
+    sqlconnection.query(
+      `SELECT id as cartId FROM cart WHERE user_id = ?`,
+      [userData.userId],
+      (error, result) => {
+        if (error) {
+          reject(new ServerError(400, error.message, error));
+        } else {
+          resolve(result[0]);
+        }
       }
-    });
+    );
   });
 };
 
 orderModel.addToCart = function (requestObj) {
   const { userData } = requestObj;
   return new Promise(async function (resolve, reject) {
-    sqlconnection.query(`SELECT id as cartId FROM cart WHERE user_id = ?`, [userData.userId], async (error, result) => {
-      if (error) {
-        reject(new ServerError(400, error.message, error));
-      } else {
-        if (result.length == 0) {
-          sqlconnection.query(`INSERT INTO cart (user_id) VALUES(?)`, [userData.userId], (err, result) => {
-            if (!!result) {
-              console.log(result.insertId, result, 'RESULT');
-              requestObj.cartId = result.insertId;
-              resolve(requestObj);
-            } else {
-              reject(new ServerError(400, error.message, error));
-            }
-          });
+    sqlconnection.query(
+      `SELECT id as cartId FROM cart WHERE user_id = ?`,
+      [userData.userId],
+      async (error, result) => {
+        if (error) {
+          reject(new ServerError(400, error.message, error));
         } else {
-          requestObj.cartId = result[0].cartId;
-          resolve(requestObj);
+          if (result.length == 0) {
+            sqlconnection.query(
+              `INSERT INTO cart (user_id) VALUES(?)`,
+              [userData.userId],
+              (err, result) => {
+                if (!!result) {
+                  console.log(result.insertId, result, "RESULT");
+                  requestObj.cartId = result.insertId;
+                  resolve(requestObj);
+                } else {
+                  reject(new ServerError(400, error.message, error));
+                }
+              }
+            );
+          } else {
+            requestObj.cartId = result[0].cartId;
+            resolve(requestObj);
+          }
         }
       }
-    });
+    );
   }).then((requestObj) => orderModel.insertCartItem(requestObj));
 };
 
 orderModel.insertCartItem = function (requestObj) {
   const { userData, body, cartId } = requestObj;
-  const { selectedProductQuantity, selectedProductCount, selectedProductPrice, idMap } = body;
+  const { selectedProductQuantity, selectedProductCount, selectedProductPrice, idMap } =
+    body;
 
   let selectedProuduct = idMap[Number(selectedProductQuantity).toFixed(1)];
   console.log(
@@ -53,7 +66,7 @@ orderModel.insertCartItem = function (requestObj) {
     cartId,
     selectedProductPrice,
     selectedProductCount,
-    'product_quantity'
+    "product_quantity"
   );
   return new Promise((resolve, reject) => {
     sqlconnection.query(
@@ -76,7 +89,7 @@ orderModel.getCartItemsModel = function (requestObj) {
       .getUserCartId(requestObj)
       .then((cartId) => {
         if (cartId) {
-          console.log(cartId, 'Inside IF');
+          console.log(cartId, "Inside IF");
           sqlconnection.query(
             `SELECT  product_name, product_price , product_quantity , product_id ,selected_product , catagory , selected_product*product_price as price  from  
           product JOIN (SELECT product_id, sum(selected_quantity) as selected_product FROM cartItems WHERE cart_id =? group by(product_id))userCartItem
@@ -102,26 +115,81 @@ orderModel.getCartItemsModel = function (requestObj) {
 
 orderModel.removeCartItemModel = function (requestObj) {
   return new Promise(function (resolve, reject) {
-    const { body, query } = requestObj;
+    const { query } = requestObj;
     const { cart_id, product_id } = query;
-    console.log(query, 'PARAMS');
+
+    let productSet = product_id.split(",").map(Number);
+
     if (cart_id) {
       sqlconnection.query(
-        `DELETE FROM cartItems WHERE product_id= ? AND cart_id = ?`,
-        [product_id, cart_id],
+        `DELETE FROM cartItems WHERE cart_id = ? AND product_id IN ?`,
+        [cart_id, [productSet]],
         function (err, result) {
           if (err) {
             console.log(err);
             reject(new ServerError(400, err.message, err));
           } else {
-            resolve({ message: 'successfully Item Deleted' });
+            resolve({ message: "successfully Item Deleted" });
           }
         }
       );
     } else {
-      resolve({ message: 'No CartId is given' });
+      resolve({ message: "No CartId is given" });
     }
   });
 };
 
+orderModel.insertOrder = function (requestObj) {
+  const { userData, body } = requestObj;
+
+  const { products, selectedAddress, orderDate, cart_id } = body;
+
+  return new Promise(async function (resolve, reject) {
+    try {
+      let [invoiceRow, fields] = await sqlconnection
+        .promise()
+        .query(
+          `INSERT INTO invoice (user_id, expected_time,selected_address) VALUES(?,?,?)`,
+          [userData.userId, orderDate, selectedAddress]
+        );
+
+      if (invoiceRow.insertId) {
+        let orderedProduct = await products.map((product) => [
+          userData.userId,
+          product.product_id,
+          invoiceRow.insertId,
+          parseInt(product.selected_product),
+        ]);
+
+        let [row, fields] = await sqlconnection
+          .promise()
+          .query(
+            `INSERT INTO userOrder (user_id, product_id,invoice_id,selected_quantity) VALUES ?`,
+            [orderedProduct]
+          );
+
+        if (!!cart_id) {
+          let cartProducts = await products
+            .map((product) => product.product_id)
+            .join(",");
+          requestObj.query = {
+            cart_id,
+            product_id: cartProducts,
+          };
+
+          try {
+            let cartItemRemoved = await orderModel.removeCartItemModel(requestObj);
+            resolve({ message: "succesfully order placed" });
+          } catch (error) {
+            reject(new ServerError(400, error.message, error));
+          }
+        } else {
+          resolve({ message: "succesfully order placed" });
+        }
+      }
+    } catch (error) {
+      reject(new ServerError(400, error.message, error));
+    }
+  });
+};
 module.exports = orderModel;

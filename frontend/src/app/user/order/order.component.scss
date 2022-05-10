@@ -1,5 +1,8 @@
 .order-confirm {
     width:90%;
+    height:100%;
+    display: grid;
+    place-items: center;
     margin: auto;
     .cart-table{
         width: 100%;
@@ -26,4 +29,21 @@
     }
 }
 }
+}
+
+.order-placed{
+    height: 100%;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    img {
+        display: block;
+        width: 50px;
+        height: 50px;
+        margin-bottom: 1rem;
+    }
+    p{
+        margin-bottom: 1rem;
+    }
 }

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  userApiEndPoint: 'http://www.cakeoccasions.live/api'
+  userApiEndPoint: 'http://localhost:8090'
 };
 
 /*

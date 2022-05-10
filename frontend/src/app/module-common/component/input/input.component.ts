@@ -19,8 +19,11 @@ export class InputComponent implements OnInit {
 
   @Input('component') component: string = "input";
 
+  @Input('control') control!: FormControl;
 
-  @Input('control') control: FormControl;
+  @Input('value') value!: string;
+
+  @Input('disable')disable: boolean = false;
 
   constructor() { }
 

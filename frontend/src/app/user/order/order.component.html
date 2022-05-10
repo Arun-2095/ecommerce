@@ -1,146 +1,183 @@
-<div class="order-confirm">
-
-<mat-accordion class="example-headers-align">
-  <mat-expansion-panel   [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+<ng-template  [ngIf]="orderPlaced == false" >
+  <div class="order-confirm">
+<mat-accordion class="example-headers-align" >
+  <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
     <mat-expansion-panel-header>
       <mat-panel-title>
         orders Detail
       </mat-panel-title>
     </mat-expansion-panel-header>
-
   
-
-<table mat-table [dataSource]="orderList" class="cart-table">
-
-
-  <ng-container  matColumnDef="Product">
-    <th mat-header-cell *matHeaderCellDef> Product Name </th>
-    <td mat-cell *matCellDef="let row"> {{row.product_name}} </td>
-    <td mat-footer-cell *matFooterCellDef> </td>
-  </ng-container>
-  <ng-container  matColumnDef="Quantity">
-    <th mat-header-cell *matHeaderCellDef> Product Quantity </th>
-    <td mat-cell *matCellDef="let row"> {{row.product_quantity | weight:row.catagory}} </td>
-    <td mat-footer-cell *matFooterCellDef></td>
-  </ng-container>
-  <ng-container  matColumnDef="Price">
-    <th mat-header-cell *matHeaderCellDef> Product Price </th>
-    <td mat-cell *matCellDef="let row"> {{row.product_price  |  currency:'INR'}} </td>
-    <td mat-footer-cell *matFooterCellDef></td>
-  </ng-container>
-  <ng-container  matColumnDef="Selected Product">
-    <th mat-header-cell *matHeaderCellDef> selected Count </th>
-    <td mat-cell *matCellDef="let row"> {{row.selected_product}} </td>
-    <td mat-footer-cell *matFooterCellDef>Total </td>
-  </ng-container>
-  <ng-container  matColumnDef="Total">
-    <th mat-header-cell *matHeaderCellDef>Price </th>
-    <td mat-cell *matCellDef="let row"> {{row.price |  currency:'INR'}} </td>
-    <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency:'INR'}} </td>
-  </ng-container>
-  <ng-container  matColumnDef="Action">
-    <th mat-header-cell *matHeaderCellDef> Action </th>
-    <td mat-cell *matCellDef="let row"> <button  mat-icon-button (click)="deleteItem(row)"> 
-      <mat-icon> delete</mat-icon>
-    </button> </td>
-    <td mat-footer-cell *matFooterCellDef> <button  mat-raised-button color="primary" (click)="placeOrder()"> 
-
-     place Order</button></td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="tableColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: tableColumns;"></tr>
-  <tr mat-footer-row *matFooterRowDef="tableColumns"></tr>
-</table>
+  
+  
+    <table mat-table [dataSource]="orderList" class="cart-table">
+      <ng-container matColumnDef="Product">
+        <th mat-header-cell *matHeaderCellDef> Product Name </th>
+        <td mat-cell *matCellDef="let row"> {{row.product_name}} </td>
+        <td mat-footer-cell *matFooterCellDef> </td>
+      </ng-container>
+      <ng-container matColumnDef="Quantity">
+        <th mat-header-cell *matHeaderCellDef> Product Quantity </th>
+        <td mat-cell *matCellDef="let row"> {{row.product_quantity | weight:row.catagory}} </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+      <ng-container matColumnDef="Price">
+        <th mat-header-cell *matHeaderCellDef> Product Price </th>
+        <td mat-cell *matCellDef="let row"> {{row.product_price | currency:'INR'}} </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+      <ng-container matColumnDef="Selected Product">
+        <th mat-header-cell *matHeaderCellDef> selected Count </th>
+        <td mat-cell *matCellDef="let row"> {{row.selected_product}} </td>
+        <td mat-footer-cell *matFooterCellDef>Total </td>
+      </ng-container>
+      <ng-container matColumnDef="Total">
+        <th mat-header-cell *matHeaderCellDef>Price </th>
+        <td mat-cell *matCellDef="let row"> {{row.price | currency:'INR'}} </td>
+        <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency:'INR'}} </td>
+      </ng-container>
+      <ng-container matColumnDef="Action">
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+        <td mat-cell *matCellDef="let row"> <button mat-icon-button (click)="deleteItem(row)">
+            <mat-icon> delete</mat-icon>
+          </button> </td>
+        <td mat-footer-cell *matFooterCellDef> <button mat-raised-button color="primary" (click)="placeOrder()">
+  
+            place Order</button></td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="tableColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: tableColumns;"></tr>
+      <tr mat-footer-row *matFooterRowDef="tableColumns"></tr>
+    </table>
     <mat-action-row>
       <button mat-button color="primary" (click)="nextStep()">Next</button>
     </mat-action-row>
   </mat-expansion-panel>
-
+  
   <mat-expansion-panel [disabled]="step == 0" [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
     <mat-expansion-panel-header>
       <mat-panel-title>
         Delivery Address
       </mat-panel-title>
     </mat-expansion-panel-header>
-
-    <mat-form-field appearance="fill">
-      <mat-label>Country</mat-label>
-      <input matInput>
-    </mat-form-field>
-
-     <mat-expansion-panel  (opened)="newAddress = !newAddress"  (closed)="newAddress = !newAddress" >
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Add Address
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-   <form class='add-addresss-form' id="address" [formGroup]="addressForm" (ngSubmit)="addAddress()">
-       <div class="row">
-        <div class="col-md-6">
-          <app-input   name="name"   [control]="addressForm.controls.name"  label="Full Name" ></app-input>
+    <mat-radio-group aria-labelledby="example-radio-group-label" (change)="orderAddress($event)" [value]="selectedAddress"
+      class="example-radio-group">
+  
+      <div class="mt-4" *ngFor="let addres of addressList; index as i;">
+        <mat-radio-button class="example-radio-button" [value]="addres.addressId">
+  
+          <div class="row">
+            <div class="col-md-6">
+              <app-input name="name" [value]="addres.name" label="Full Name" disable="true"></app-input>
+            </div>
+            <div class="col-md-6  w-100">
+              <app-input name="phone" [value]="addres.phone" label="Phone Number" disable="true"></app-input>
+            </div>
+          </div>
+          <div class=" w-100">
+            <app-input component="text-area" name="address" [value]="addres.address" label="Address" disable="true">
+            </app-input>
+          </div>
+          <div class="row">
+            <div class="col-md-4 w-100">
+              <app-input name="Street" [value]="addres.street" label="Street" disable="true"></app-input>
+            </div>
+            <div class="col-md-4 w-100">
+              <app-input name="taluk" [value]="addres.taluk" label="Taluk" disable="true"></app-input>
+            </div>
+  
+            <div class="col-md-4 w-100">
+              <app-input name="city" [value]="addres.city" label="city" disable="true"></app-input>
+            </div>
+  
+          </div>
+          <div class="d-block w-100">
+            <app-input name="landMark" [value]="addres.landMark" label="landMark" disable="true"></app-input>
+          </div>
+  
+        </mat-radio-button>
+        <mat-divider></mat-divider>
+      </div>
+    </mat-radio-group>
+  
+  
+    <mat-expansion-panel (opened)="newAddress = !newAddress" (closed)="newAddress = !newAddress">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Add Address
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <form class='add-addresss-form' id="address" [formGroup]="addressForm" (ngSubmit)="addAddress()">
+        <div class="row">
+          <div class="col-md-6">
+            <app-input name="name" [control]="addressForm.controls.name" label="Full Name"></app-input>
+          </div>
+          <div class="col-md-6  w-100">
+            <app-input name="phone" [control]="addressForm.controls.phone" label="Phone Number"></app-input>
+          </div>
         </div>
-       <div  class="col-md-6  w-100">
-          <app-input  name="phone"    [control]="addressForm.controls.phone"   label="Phone Number" ></app-input>
-         </div>       
-      </div>  
-      <div class=" w-100">
-     <app-input component="text-area" name="address"  [control]="addressForm.controls.address" label="Address" ></app-input>
-    </div>
-    <div class="row">
-    <div class="col-md-4 w-100">
-          <app-input  name="street"  [control]="addressForm.controls.street" label="Street" ></app-input>
-    </div>
-    
-    <div class="col-md-4 w-100">
-       <app-input  name="taluk"  [control]="addressForm.controls.taluk"  label="Taluk" ></app-input>
-    </div>
-
-    <div class="col-md-4 w-100">
-        <app-input  name="city"  [control]="addressForm.controls.city"  label="city" ></app-input>
-    </div>
-
-    </div>
-    <div class="d-block w-100">
-        <app-input component="text-area" name="landMark"  [control]="addressForm.controls.landMark" label="LandMark" ></app-input>
-    </div>
-     
-   </form>
-
-    <mat-action-row>
-      <button type="submit" form="address" mat-button color="warn">Add Address Deliver Here</button>
-    </mat-action-row>
-  </mat-expansion-panel>
+        <div class=" w-100">
+          <app-input component="text-area" name="address" [control]="addressForm.controls.address" label="Address">
+          </app-input>
+        </div>
+        <div class="row">
+          <div class="col-md-4 w-100">
+            <app-input name="street" [control]="addressForm.controls.street" label="Street"></app-input>
+          </div>
+          <div class="col-md-4 w-100">
+            <app-input name="taluk" [control]="addressForm.controls.taluk" label="Taluk"></app-input>
+          </div>
+  
+          <div class="col-md-4 w-100">
+            <app-input name="city" [control]="addressForm.controls.city" label="city"></app-input>
+          </div>
+  
+        </div>
+        <div class="d-block w-100">
+          <app-input component="text-area" name="landMark" [control]="addressForm.controls.landMark" label="LandMark">
+          </app-input>
+        </div>
+  
+      </form>
+  
+      <mat-action-row>
+        <button type="submit" form="address" mat-button color="warn">Add Address Deliver Here</button>
+      </mat-action-row>
+    </mat-expansion-panel>
     <mat-action-row *ngIf="!newAddress">
       <button mat-button color="warn" (click)="prevStep()">Previous</button>
-      <button mat-button color="primary" (click)="nextStep()">Next</button>
+      <button mat-button color="primary" (click)="validateAddress()">Next</button>
     </mat-action-row>
   </mat-expansion-panel>
-
- 
-
+  
+  
+  
   <mat-expansion-panel [disabled]="step !== 2" [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
     <mat-expansion-panel-header>
       <mat-panel-title>
-        Day of the trip
+        Order Date
       </mat-panel-title>
-      <mat-panel-description>
-        Inform the date you wish to travel
-        <mat-icon>date_range</mat-icon>
-      </mat-panel-description>
     </mat-expansion-panel-header>
-
+  
     <mat-form-field appearance="fill">
       <mat-label>Date</mat-label>
-      <input matInput [matDatepicker]="picker" (focus)="picker.open()" readonly>
+      <input matInput [matDatepicker]="picker" (dateChange)="dateChange($event)" [value]="orderDate"
+        (focus)="picker.open()">
     </mat-form-field>
     <mat-datepicker #picker></mat-datepicker>
-
+  
     <mat-action-row>
       <button mat-button color="warn" (click)="prevStep()">Previous</button>
-      <button mat-button color="primary" (click)="nextStep()">End</button>
+      <button mat-button color="primary" (click)="placeOrder()">Confirm Order</button>
     </mat-action-row>
   </mat-expansion-panel>
 
 </mat-accordion>
+</div>
+</ng-template>
+<div class="order-placed" *ngIf="orderPlaced">
+  <img  src="require('../../../../../assets/images/check.png"/>
+ <p> Order Placed Successfully</p>
+ <a [routerLink]="'/user/dashboard'"> Watch out our other products</a>
 </div>

@@ -84,9 +84,12 @@ CREATE TABLE invoice (id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
                     user_id INT, 
                     order_status TINYINT NOT NULL DEFAULT 1, 
                     ordered_time DATETIME DEFAULT CURRENT_TIMESTAMP, 
+                    expected_time DATETIME,
                     delivered_time DATETIME, 
+                    selected_address INT,
                     FOREIGN KEY(user_id) REFERENCES user(id),
-                    FOREIGN KEY(order_status) REFERENCES deliveryStatus(id));
+                    FOREIGN KEY(order_status) REFERENCES deliveryStatus(id),
+                    FOREIGN KEY(selected_address) REFERENCES userAddress(id));
 
 
 -- Order Table

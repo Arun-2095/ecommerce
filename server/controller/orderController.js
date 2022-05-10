@@ -1,4 +1,10 @@
-const { getUserCartId, addToCart, getCartItemsModel, removeCartItemModel } = require('../model/orderModel');
+const {
+  getUserCartId,
+  addToCart,
+  getCartItemsModel,
+  removeCartItemModel,
+  insertOrder,
+} = require("../model/orderModel");
 
 var orderController = {};
 
@@ -24,8 +30,8 @@ orderController.getCartItems = (req, res, next) => {
 orderController.addToCart = (req, res, next) => {
   addToCart(req)
     .then((cart) => {
-      console.log(cart, 'CART');
-      res.json({ message: 'successfully Added' });
+      console.log(cart, "CART");
+      res.json({ message: "successfully Added" });
     })
     .catch((err) => next(err));
 };
@@ -33,8 +39,14 @@ orderController.addToCart = (req, res, next) => {
 orderController.removeCartItem = (req, res, next) => {
   removeCartItemModel(req)
     .then((cart) => {
-      res.json({ message: 'successfully Deleted' });
+      res.json({ message: "successfully Deleted" });
     })
+    .catch((err) => next(err));
+};
+
+orderController.placeOrder = (req, res, next) => {
+  insertOrder(req)
+    .then((order) => res.json({ status: true, message: "ORDER PLACED Successfully" }))
     .catch((err) => next(err));
 };
 

@@ -50,11 +50,23 @@ export interface Product {
 
   }
   export interface CartItemResponse {
-    cartId : number;
+    cartId : Partial<number>;
     cartItems:CartItem[]
   }
 
   export interface DeleteCartRequest {
    product_id : number;
    cart_id :number;
+  }
+
+  export interface Address {
+    address: string;
+    city: string;
+    isSelected: string;
+    landMark: string;
+    name: string;
+    phone: string;
+    street: string;
+    taluk: string;
+
   }

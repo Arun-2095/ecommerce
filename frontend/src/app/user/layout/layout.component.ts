@@ -30,7 +30,7 @@ export class LayoutComponent implements OnInit {
     private router:Router) { }
   public links:string[] = ['Dashboard', 'Orders', 'Cart', 'Account', 'Notification']
 
-  public cartItems:number;
+  public cartItems:any[] =[];
 
   ngOnInit(): void {
     this.UserService.getUserDetail().subscribe(data =>{
@@ -40,7 +40,8 @@ export class LayoutComponent implements OnInit {
      this.DashboardService.getCartItems().subscribe();
 
      this.DashboardService.cartList.subscribe((cartList)=> {
-     this.cartItems = cartList.cartItems.length;
+       console.log(cartList,"cartList")
+     this.cartItems = cartList.cartItems;
      })
       
   }

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Endpoints } from "src/app/helpers/endpoints";
-import { Catagory, ProductFilter, ProductResponse, CartItemResponse, DeleteCartRequest } from "./interface/dashboard"
+import { Catagory, ProductFilter, ProductResponse, CartItemResponse, DeleteCartRequest ,Address } from "./interface/dashboard"
 import { map, tap } from 'rxjs/operators';
 import { CATAGORY } from '../helpers/constant';
 import { userAddress } from '../interface/event';
@@ -31,10 +31,10 @@ export class DashboardService {
 
   public productList: Subject<ProductResponse[]> = new Subject<ProductResponse[]>()
 
-  public cartList: Subject<CartItemResponse> = new Subject<CartItemResponse>()
+  public cartList: BehaviorSubject<CartItemResponse> = new BehaviorSubject<CartItemResponse>({cartId: undefined,cartItems:[]})
 
-
-
+  public addressList:BehaviorSubject<Address[]>  = new BehaviorSubject([])
+ 
   public getProduct(): Observable<void> {
     return this.http.post<ProductResponse[]>(Endpoints.GET_PRODUCT, this.productFilter).pipe(
 
@@ -78,20 +78,28 @@ export class DashboardService {
     }))
   }
 
-  public deleteCartItem(product_id: number, cart_id: number): Observable<any> {
-    let httpParams = new HttpParams().set('cart_id', cart_id.toString()).set('product_id', product_id.toString());
+  public deleteCartItem(product_id: number[], cart_id: number): Observable<any> {
+    let httpParams = new HttpParams().set('cart_id', cart_id.toString()).set('product_id', product_id.join(','));
 
     return this.http.delete(Endpoints.ADD_TO_CART, { params: httpParams })
 
   }
 
-  public addAddress(data: { address: userAddress }): Observable<any> {
-    return this.http.post(Endpoints.ADD_ADDRESS, data)
+  public addAddress(data: { address: userAddress }): Observable<Address[]> {
+    return this.http.post<Address[]>(Endpoints.ADD_ADDRESS, data)
   }
 
-  public getAddress(): Observable<any> {
-    return this.http.get(Endpoints.ADD_ADDRESS)
+  public getAddress(): Observable<Address[]> {
+    return this.http.get<Address[]>(Endpoints.ADD_ADDRESS).pipe(
+      tap(addressList => {
+        console.log(addressList, "addressList")
+        this.addressList.next(addressList)
+      })
+    )
   }
 
+  public placeOrder(data: any): Observable<any[]> {
+    return this.http.post<any[]>(Endpoints.ORDER, data)
+  }
 
 }
