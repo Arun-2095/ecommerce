@@ -192,4 +192,34 @@ orderModel.insertOrder = function (requestObj) {
     }
   });
 };
+
+orderModel.getOrderList = function (requestObj) {
+  const { userData } = requestObj;
+
+  return new Promise(async function (resolve, reject) {
+    sqlconnection.query(
+      `SELECT  
+      delivery_status as orderStatus , 
+      JSON_OBJECT('address', A.address , 'steet', A.street, 'phone', A.phone , "taluk", A.taluk) as Address,
+      O.invoice_id as invoice,
+      ordered_time,
+      json_arrayagg(JSON_OBJECT('name', P.product_name , 'catagory', P.catagory , 'quantity', P.product_quantity , 'price', P.product_price, 'selectedQuantity', O.selected_quantity)) as product 
+      FROM (SELECT * FROM shop.invoice where user_id = ?)Invoice 
+      LEFT JOIN deliveryStatus D ON Invoice.order_status = D.id 
+      LEFT JOIN userAddress A ON Invoice.selected_address = A.id 
+      LEFT JOIN userOrder O ON Invoice.id = O.invoice_id 
+      LEFT JOIN product P ON O.product_id = P.id group by invoice_id ;`,
+      [userData.userId],
+      function (err, result) {
+        if (err) {
+          console.log(err);
+          reject(new ServerError(400, err.message, err));
+        } else {
+          resolve(result);
+        }
+      }
+    );
+  });
+};
+
 module.exports = orderModel;

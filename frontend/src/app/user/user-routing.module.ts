@@ -5,6 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LayoutComponent } from './layout/layout.component';
 import {RouterGuardGuard} from './router-guard.guard'
+import { OrdersComponent } from './orders/orders.component';
 const routes: Routes = [{
   path:'',
   component: LayoutComponent,
@@ -21,6 +22,10 @@ const routes: Routes = [{
    {
     path: 'cart',
     component: CartComponent,
+   },
+   {
+    path: 'orders',
+    component: OrdersComponent,
    }
   ]
 }];

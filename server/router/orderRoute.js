@@ -20,4 +20,6 @@ OrderRouter.get(
 
 OrderRouter.post("/create", AuthController.validateWebToken, OrderController.placeOrder);
 
+OrderRouter.get("/list", AuthController.validateWebToken, OrderController.getOrdersList);
+
 module.exports = OrderRouter;

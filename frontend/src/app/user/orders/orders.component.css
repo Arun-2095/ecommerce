@@ -1,0 +1,18 @@
+.orders{
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.order-item{
+    width: 90%;
+    margin: .5rem auto;
+}
+
+.order-item:first-child {
+    margin-top: 2rem;
+}
+.mat-expansion-panel-header-description {
+    justify-content: end;
+}

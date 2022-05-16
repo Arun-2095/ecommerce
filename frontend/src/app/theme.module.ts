@@ -15,10 +15,11 @@ import {MatBadgeModule} from '@angular/material/badge';
 import {MatExpansionModule} from '@angular/material/expansion'; 
 import {MatDatepickerModule} from '@angular/material/datepicker'; 
 import {MatNativeDateModule} from '@angular/material/core';
+import {MatChipsModule} from '@angular/material/chips';
 
 const MaterialModules = [MatButtonModule, MatToolbarModule, MatIconModule , 
   MatSidenavModule,MatMenuModule, MatListModule, MatGridListModule , MatCardModule, MatInputModule, MatFormFieldModule,MatRadioModule,
-  MatTableModule,MatBadgeModule,MatExpansionModule,MatDatepickerModule,MatNativeDateModule]
+  MatTableModule,MatBadgeModule,MatExpansionModule,MatDatepickerModule,MatNativeDateModule,MatChipsModule]
 
 @NgModule({
   declarations: [],

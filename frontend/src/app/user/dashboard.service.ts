@@ -102,4 +102,8 @@ export class DashboardService {
     return this.http.post<any[]>(Endpoints.ORDER, data)
   }
 
+  public getOrderList():Observable<any[]>{
+    return this.http.get<any[]>(Endpoints.ORDER_LIST)
+  }
+
 }

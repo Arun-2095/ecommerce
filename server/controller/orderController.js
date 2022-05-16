@@ -4,6 +4,7 @@ const {
   getCartItemsModel,
   removeCartItemModel,
   insertOrder,
+  getOrderList,
 } = require("../model/orderModel");
 
 var orderController = {};
@@ -47,6 +48,12 @@ orderController.removeCartItem = (req, res, next) => {
 orderController.placeOrder = (req, res, next) => {
   insertOrder(req)
     .then((order) => res.json({ status: true, message: "ORDER PLACED Successfully" }))
+    .catch((err) => next(err));
+};
+
+orderController.getOrdersList = (req, res, next) => {
+  getOrderList(req)
+    .then((order) => res.json({ status: true, order }))
     .catch((err) => next(err));
 };
 

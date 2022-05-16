@@ -1,0 +1,34 @@
+<div >
+  <div class="orders">
+    <mat-accordion *ngFor="let order of orders;  let i = index" [attr.data-index]="i" class="order-item">
+<mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            <mat-chip-list >
+            <mat-chip color="primary" selected>{{ order.orderStatus}}</mat-chip>
+            </mat-chip-list>
+        </mat-panel-title>
+        <mat-panel-description>
+        Order Price : <span class="font-weight-bold"> &#8377;  {{ order.product | total:[{"priceKey":"price",quantityKey:"selectedQuantity"}] }}  </span>
+        </mat-panel-description>
+    </mat-expansion-panel-header>
+    
+    <ol class="list-group list-group-numbered">
+        <li *ngFor='let product of order.product; let productId=index' class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="ms-2 me-auto">
+                <div class="fw-bold">{{ product.name }} - {{product.quantity | weight:product.catagory }} </div>
+                  
+                  ordered {{ product.selectedQuantity | weight:product.catagory }}
+                
+            </div>
+            <span  class="align-self-center"> &#8377; {{product.price *  product.selectedQuantity }}</span>
+        </li>
+        
+    </ol>
+</mat-expansion-panel>
+
+    </mat-accordion>
+
+
+
+</div></div>

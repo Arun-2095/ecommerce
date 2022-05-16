@@ -13,10 +13,12 @@ import { WeightPipe } from './pipe/weight.pipe';
 import { FormControl, FormGroupDirective, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { ModuleCommonModule } from '../module-common/module-common.module';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { OrdersComponent } from './orders/orders.component';
+import { TotalPipe } from './pipe/total/total.pipe';
 
 
 @NgModule({
-  declarations: [LayoutComponent, DashboardComponent, OrderComponent, CartComponent, WeightPipe],
+  declarations: [LayoutComponent, DashboardComponent, OrderComponent, CartComponent, WeightPipe, OrdersComponent, TotalPipe],
   imports: [
     CommonModule,
     UserRoutingModule,

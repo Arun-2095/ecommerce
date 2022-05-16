@@ -8,4 +8,5 @@ export const Endpoints = {
   GET_CART_ITEMS: "/order/get-cart-items",
   ADD_ADDRESS: "/user/address",
   ORDER: "/order/create",
+  ORDER_LIST: "/order/list",
 };
