@@ -92,6 +92,7 @@ CREATE TABLE invoice (id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
                     FOREIGN KEY(selected_address) REFERENCES userAddress(id));
 
 
+ALTER TABLE invoice ADD  delivered_time DATETIME, selected_address INT;
 -- Order Table
 SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS userOrder;
@@ -147,10 +148,10 @@ CREATE TABLE userAddress (id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
                     name VARCHAR(50),
                     phone VARCHAR(50),
                     address VARCHAR(50),
-                   street VARCHAR(100),
+                    street VARCHAR(100),
                     taluk VARCHAR(100),
-                   city VARCHAR(100),
-                   landMark VARCHAR(50),
-                 isSelected BIT DEFAULT 0,
+                    city VARCHAR(100),
+                    landMark VARCHAR(50),
+                    isSelected BIT DEFAULT 0,
                     FOREIGN KEY(user_id) REFERENCES user(id));
                     
