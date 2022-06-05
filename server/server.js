@@ -15,8 +15,8 @@ require("./services/dbConnection");
 // var mailgun = require('mailgun-js')({apiKey: process.env.MAILGUN_API, domain: process.env.MAILGUN_DOMAIN});
 
 // var data = {
-//   from: 'cakeoccasion <arunagiri2195@gmail.com>',
-//   to: 'arun ,arunagiri2195@gmail.com',
+//   from: 'cakeoccasion <valid@gmail.com>',
+//   to: 'arun ,valid@gmail.com',
 //   subject: 'Hello',
 //   text: 'Testing some Mailgun awesomeness!'
 // };
